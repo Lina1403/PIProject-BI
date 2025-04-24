@@ -1,0 +1,53 @@
+<div class="login-page">
+  <!-- Vidéo de fond -->
+  <video
+    class="bg-video"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="auto"
+  >
+    <source src="assets/videos/vid1.mp4" type="video/mp4" />
+    <source src="assets/videos/vid1.webm" type="video/webm" />
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Overlay + Formulaire -->
+  <div class="login-overlay">
+    <div class="login-container">
+      <h2>Sign In</h2>
+      <form (ngSubmit)="onLogin()" #f="ngForm">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input
+            id="username"
+            name="username"
+            type="text"
+            class="form-control"
+            [(ngModel)]="username"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            class="form-control"
+            [(ngModel)]="password"
+            required
+          />
+        </div>
+        <button
+          type="submit"
+          class="btn btn-signin"
+          [disabled]="f.invalid"
+        >
+          Sign In
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

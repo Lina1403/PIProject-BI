@@ -1,0 +1,77 @@
+/* La page login occupe toute la taille de l'écran */
+.login-page {
+  position: fixed; /* Utilisez fixed pour s'assurer que la vidéo occupe toute la fenêtre */
+  top: 0;
+  left: 0;
+  width: 100vw;   /* 100% de la largeur de la fenêtre */
+  height: 100vh;  /* 100% de la hauteur de la fenêtre */
+  overflow: hidden;  /* Cache tout débordement éventuel */
+  margin: 0;
+  padding: 0;
+}
+
+/* Vidéo en plein écran, derrière le formulaire */
+.bg-video {
+  position: fixed;   /* Assurez-vous que la vidéo soit fixée à la fenêtre */
+  top: 0;
+  left: 0;
+  width: 100vw;      /* 100 % de la largeur */
+  height: 100vh;     /* 100 % de la hauteur */
+  object-fit: cover; /* Couvre toute la zone sans déformation */
+  z-index: -1;       /* La vidéo se place derrière l'overlay et le formulaire */
+}
+
+/* Overlay sombre pour améliorer la lisibilité du formulaire */
+.login-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6); /* Opacité ajustable pour l'overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2; /* Assurez-vous que l'overlay soit au-dessus de la vidéo */
+}
+
+/* Conteneur du formulaire */
+.login-container {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  z-index: 3; /* Le formulaire doit être au-dessus de l'overlay */
+}
+
+/* Mise en forme des éléments du formulaire */
+.form-group {
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.5rem;
+  box-sizing: border-box;
+}
+
+.btn-signin {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #8b0000;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-signin:disabled {
+  background-color: #5a0000;
+  cursor: not-allowed;
+}
+
+.btn-signin:not(:disabled):hover {
+  background-color: #710000;
+}

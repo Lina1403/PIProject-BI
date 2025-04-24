@@ -1,0 +1,19 @@
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Human Detection</h2>
+
+  <!-- Upload Button -->
+  <div class="text-center">
+    <button
+      class="btn"
+      (click)="uploadVideo()"
+      style="background-color: #8B0000; color: white; border: none;">
+      Upload Video
+    </button>
+  </div>
+
+  <!-- Video Upload Preview (if any video is uploaded) -->
+  <div *ngIf="videoUrl" class="mt-4 text-center">
+    <h4>Video Preview</h4>
+    <video [src]="videoUrl" controls class="w-100" height="400"></video>
+  </div>
+</div>

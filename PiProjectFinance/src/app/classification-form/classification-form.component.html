@@ -1,0 +1,91 @@
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Risk Prediction Form</h2>
+
+  <form [formGroup]="predictionForm" (ngSubmit)="submitForm()">
+    <!-- Payments Section -->
+    <div formArrayName="paiements" class="mb-4">
+      <h4 style="color: rgba(139,0,0,0.9);">Payments</h4>
+      <div *ngFor="let paiement of paiements.controls; let i = index" [formGroupName]="i" class="card p-3 mb-3">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="DueDate">Due Date:</label>
+            <input id="DueDate" type="date" formControlName="DueDate" class="form-control"
+              [ngClass]="{'is-invalid': paiement.get('DueDate')?.invalid && paiement.get('DueDate')?.touched}" />
+            <div *ngIf="paiement.get('DueDate')?.invalid && paiement.get('DueDate')?.touched" class="text-danger">
+              Due Date is required.
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="PaymentDate">Payment Date:</label>
+            <input id="PaymentDate" type="date" formControlName="PaymentDate" class="form-control"
+              [ngClass]="{'is-invalid': paiement.get('PaymentDate')?.invalid && paiement.get('PaymentDate')?.touched}" />
+            <div *ngIf="paiement.get('PaymentDate')?.invalid && paiement.get('PaymentDate')?.touched" class="text-danger">
+              Payment Date is required.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Other Fields -->
+    <div class="mb-3">
+      <label for="RemiseUtilisee" class="form-label">Discount Used:</label>
+      <input id="RemiseUtilisee" type="number" step="0.01" formControlName="RemiseUtilisee" class="form-control"
+        [ngClass]="{'is-invalid': predictionForm.get('RemiseUtilisee')?.invalid && predictionForm.get('RemiseUtilisee')?.touched}" />
+      <div *ngIf="predictionForm.get('RemiseUtilisee')?.invalid && predictionForm.get('RemiseUtilisee')?.touched" class="text-danger">
+        Discount Used must be a non-negative number.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="SupplierPrice" class="form-label">Supplier Price:</label>
+      <input id="SupplierPrice" type="number" formControlName="SupplierPrice" class="form-control"
+        [ngClass]="{'is-invalid': predictionForm.get('SupplierPrice')?.invalid && predictionForm.get('SupplierPrice')?.touched}" />
+      <div *ngIf="predictionForm.get('SupplierPrice')?.invalid && predictionForm.get('SupplierPrice')?.touched" class="text-danger">
+        Supplier Price must be a non-negative number.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="TotalPrice" class="form-label">Total Price:</label>
+      <input id="TotalPrice" type="number" formControlName="TotalPrice" class="form-control"
+        [ngClass]="{'is-invalid': predictionForm.get('TotalPrice')?.invalid && predictionForm.get('TotalPrice')?.touched}" />
+      <div *ngIf="predictionForm.get('TotalPrice')?.invalid && predictionForm.get('TotalPrice')?.touched" class="text-danger">
+        Total Price must be a non-negative number.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="NombreLitiges" class="form-label">Number of Disputes:</label>
+      <input id="NombreLitiges" type="number" formControlName="NombreLitiges" class="form-control"
+        [ngClass]="{'is-invalid': predictionForm.get('NombreLitiges')?.invalid && predictionForm.get('NombreLitiges')?.touched}" />
+      <div *ngIf="predictionForm.get('NombreLitiges')?.invalid && predictionForm.get('NombreLitiges')?.touched" class="text-danger">
+        Number of Disputes must be a non-negative integer.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="BalanceDue" class="form-label">Balance Due:</label>
+      <input id="BalanceDue" type="number" formControlName="BalanceDue" class="form-control"
+        [ngClass]="{'is-invalid': predictionForm.get('BalanceDue')?.invalid && predictionForm.get('BalanceDue')?.touched}" />
+      <div *ngIf="predictionForm.get('BalanceDue')?.invalid && predictionForm.get('BalanceDue')?.touched" class="text-danger">
+        Balance Due must be a non-negative number.
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="text-center">
+      <button type="submit" class="btn" style="background-color: rgba(139, 0, 0, 0.9); color: white;">
+        Predict
+      </button>
+    </div>
+  </form>
+
+  <!-- Prediction Result -->
+  <div *ngIf="predictionResult !== null" class="mt-4 text-center">
+    <div class="card shadow-sm p-4" style="background-color: #f8f9fa; border-color: #17a2b8;">
+      <h3 class="mb-3" style="color: #17a2b8;">Prediction Result</h3>
+      <p class="fs-4"><span class="fw-bold" style="color: #dc3545;">{{ predictionResult }}</span></p>
+    </div>
+  </div>
+</div>
