@@ -4,9 +4,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ClassificationFormComponent } from './classification-form/classification-form.component';
 import { LoginComponent } from './login/login.component';
 import { HumanDetectionComponent } from './human-detection/human-detection.component'; // Import your new component
-
+import { HomeComponent } from './home/home.component'; // Import the HomeComponent
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' }, // Route par défaut
+  { path: '', redirectTo: '/home', pathMatch: 'full' }, // Route par défaut
+  {path: 'home', component: HomeComponent}, // Route pour la page d'accueil
   { path: 'login', component: LoginComponent }, // Page de login
   { path: 'dashboard', component: DashboardComponent },
   { path: 'classification-form', component: ClassificationFormComponent },

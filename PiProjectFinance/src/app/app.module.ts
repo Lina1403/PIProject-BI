@@ -21,6 +21,7 @@ import { ClassificationFormComponent } from './classification-form/classificatio
 import { SafePipe } from './safe.pipe';
 import { LoginComponent } from './login/login.component';
 import { HumanDetectionComponent } from './human-detection/human-detection.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { HumanDetectionComponent } from './human-detection/human-detection.compo
     SafePipe,
     LoginComponent,
     HumanDetectionComponent,
+    HomeComponent,
 
   ],
   imports: [

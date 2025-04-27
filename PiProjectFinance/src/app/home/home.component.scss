@@ -1,0 +1,96 @@
+/* Home page occupe toute la taille de l'écran */
+.home-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw; /* 100% de la largeur de l'écran */
+  height: 100vh; /* 100% de la hauteur de l'écran */
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* Vidéo en plein écran, derrière le contenu */
+.bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -1; /* Derrière tout */
+}
+
+/* Overlay semi-transparent pour améliorer la lisibilité */
+.login-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 2;
+}
+
+/* Conteneur du logo en haut à gauche */
+.logo-container {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 3;
+}
+
+/* Logo ajusté pour qu'il soit plus grand et visible */
+.logo {
+  height: 60px; /* Logo un peu plus grand */
+  width: auto;
+}
+
+/* Conteneur du texte et bouton centré avec une carte */
+.login-container {
+  background: rgba(255, 255, 255, 0.8); /* Carte semi-transparente avec fond clair */
+  padding: 2rem;
+  text-align: center;
+  z-index: 3;
+  color: #333; /* Couleur de texte plus foncée pour un meilleur contraste */
+  max-width: 600px; /* Limite la largeur du conteneur */
+  width: 100%;
+  border-radius: 8px; /* Coins arrondis pour la carte */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Ombre pour la carte */
+}
+
+/* Titre principal */
+.login-container h6 {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #333; /* Texte plus foncé */
+}
+
+/* Sous-titre */
+.login-container h2 {
+  font-size: 36px;
+  margin-bottom: 30px;
+  font-style: italic;
+  color: #333; /* Texte plus foncé */
+}
+
+/* Bouton */
+.btn-start {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background-color: #8b0000;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 18px; /* Agrandit le texte du bouton */
+}
+
+/* Effet au survol du bouton */
+.btn-start:hover {
+  background-color: #710000;
+}

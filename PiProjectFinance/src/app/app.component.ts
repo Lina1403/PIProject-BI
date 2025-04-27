@@ -18,9 +18,7 @@ export class AppComponent implements OnInit {
     // Surveillez les changements de route
     this.router.events.subscribe(() => {
       const currentRoute = this.router.url;
-
-      // Cacher les barres et le pied de page pour certaines routes
-      if (currentRoute === '/login' || currentRoute === '/register') {
+      if (currentRoute === '/login' || currentRoute === '/register' || currentRoute === '/home') {
         this.showNavbar = false;
         this.showSidebar = false;
         this.showFooter = false;
@@ -29,6 +27,7 @@ export class AppComponent implements OnInit {
         this.showSidebar = true;
         this.showFooter = true;
       }
+      
     });
   }
 }

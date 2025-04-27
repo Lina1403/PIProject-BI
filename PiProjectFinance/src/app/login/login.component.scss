@@ -1,64 +1,139 @@
 /* La page login occupe toute la taille de l'écran */
 .login-page {
-  position: fixed; /* Utilisez fixed pour s'assurer que la vidéo occupe toute la fenêtre */
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;   /* 100% de la largeur de la fenêtre */
-  height: 100vh;  /* 100% de la hauteur de la fenêtre */
-  overflow: hidden;  /* Cache tout débordement éventuel */
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
   margin: 0;
   padding: 0;
 }
 
-/* Vidéo en plein écran, derrière le formulaire */
+/* Vidéo en plein écran */
 .bg-video {
-  position: fixed;   /* Assurez-vous que la vidéo soit fixée à la fenêtre */
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;      /* 100 % de la largeur */
-  height: 100vh;     /* 100 % de la hauteur */
-  object-fit: cover; /* Couvre toute la zone sans déformation */
-  z-index: -1;       /* La vidéo se place derrière l'overlay et le formulaire */
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -1;
 }
 
-/* Overlay sombre pour améliorer la lisibilité du formulaire */
+/* Overlay sombre pour améliorer la lisibilité */
 .login-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6); /* Opacité ajustable pour l'overlay */
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 2; /* Assurez-vous que l'overlay soit au-dessus de la vidéo */
+  z-index: 2;
 }
 
-/* Conteneur du formulaire */
+/* Conteneur principal */
 .login-container {
-  background: #fff;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-  width: 100%;
-  max-width: 400px;
   text-align: center;
-  z-index: 3; /* Le formulaire doit être au-dessus de l'overlay */
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
 }
 
-/* Mise en forme des éléments du formulaire */
+/* Cartes de sélection des rôles */
+.roles-container {
+  display: flex;
+  justify-content: center;  /* Centrer les cartes dans le conteneur */
+  gap: 2rem;  /* Espacement entre les cartes */
+  flex-wrap: wrap;  /* Permet aux cartes de se réorganiser si elles ne tiennent pas sur une ligne */
+  margin-top: 3rem;
+  width: 100%;  /* Utilisation de toute la largeur */
+  max-width: 1000px; /* Limiter la largeur maximale */
+  margin: 0 auto; /* Centrage des cartes */
+}
+
+.role-card {
+  background: #e57373;  /* Rouge clair */
+  color: white;  /* Texte blanc */
+  padding: 1.5rem;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 200px;  /* Largeur fixe des cartes */
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+  flex-shrink: 0;  /* Empêche les cartes de se rétrécir */
+  min-width: 200px;  /* Fixe une largeur minimale pour chaque carte */
+}
+
+.role-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.role-card i {
+  font-size: 4rem;
+  color: #fff;
+}
+
+.role-card span {
+  display: block;
+  font-size: 1.3rem;
+  margin-top: 0.5rem;
+}
+
+.role-card p {
+  margin-top: 0.5rem;
+  color: #eee;
+  font-size: 1rem;
+}
+
+/* Message de bienvenue */
+.welcome-message {
+  margin-bottom: 1.5rem;
+}
+
+.welcome-message h2 {
+  font-size: 2rem;
+  color: #333;
+}
+
+.welcome-message p {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+/* Formulaire de connexion ajusté */
+form {
+  background: #fff;
+  padding: 2.5rem;  /* Augmenter l'espace de padding */
+  border-radius: 10px;  /* Coins plus arrondis */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Ombre plus marquée */
+  margin-top: 2rem; /* Décalage du formulaire */
+}
+
 .form-group {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   text-align: left;
 }
 
 .form-control {
   width: 100%;
-  padding: 0.5rem;
+  padding: 1rem;
+  font-size: 1rem;
   box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 4px;
 }
 
 .btn-signin {
   width: 100%;
-  padding: 0.75rem;
+  padding: 1rem;
   background-color: #8b0000;
   color: #fff;
   border: none;
