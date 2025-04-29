@@ -1,59 +1,41 @@
-<div class="container mt-5">
-  <h2 class="text-center mb-4">Predict supplier classification </h2>
+<h2>Formulaire de Clustering Fournisseur</h2>
+<form (ngSubmit)="onSubmit()" #clusteringForm="ngForm">
+  <input type="number" name="Capital_Social" [(ngModel)]="clusteringFormModel.Capital_Social" required placeholder="Capital Social"><br>
 
-  <form [formGroup]="clusteringForm" (ngSubmit)="submitForm()">
-    <div class="mb-3">
-      <label for="CapitalSocial" class="form-label">Capital Social:</label>
-      <input id="CapitalSocial" type="number" formControlName="CapitalSocial" class="form-control" />
-    </div>
-    <div class="mb-3">
-      <label for="ChiffreAffaires" class="form-label">Chiffre d'Affaires:</label>
-      <input id="ChiffreAffaires" type="number" formControlName="ChiffreAffaires" class="form-control" />
-    </div>
-    <div class="mb-3">
-      <label for="ResultatNet" class="form-label">Résultat Net:</label>
-      <input id="ResultatNet" type="number" formControlName="ResultatNet" class="form-control" />
-    </div>
-    <div class="mb-3">
-      <label for="RentabiliteFinanciere" class="form-label">Rentabilité Financière:</label>
-      <input id="RentabiliteFinanciere" type="number" step="0.01" formControlName="RentabiliteFinanciere" class="form-control" />
-    </div>
-    <div class="mb-3">
-      <label for="FondRoulement" class="form-label">Fond de Roulement:</label>
-      <input id="FondRoulement" type="number" formControlName="FondRoulement" class="form-control" />
-    </div>
-    <div class="mb-3">
-      <label for="EvolutionChiffreAffaires" class="form-label">Évolution Chiffre d'Affaires:</label>
-      <input id="EvolutionChiffreAffaires" type="number" step="0.01" formControlName="EvolutionChiffreAffaires" class="form-control" />
-    </div>
-    <div class="mb-3">
-      <label for="TotalDettes" class="form-label">Total Dettes:</label>
-      <input id="TotalDettes" type="number" formControlName="TotalDettes" class="form-control" />
-    </div>
-    <div class="mb-3">
-      <label for="Type" class="form-label">Type:</label>
-      <select id="Type" formControlName="Type" class="form-select">
-        <option value="Partenariat">Partenariat</option>
-        <option value="Coopérative / Mutuelle">Coopérative / Mutuelle</option>
-        <option value="Non disponible">Non disponible</option>
-        <option value="Société commerciale">Société commerciale</option>
-        <option value="Divers / non répertoriés ailleurs">Divers / non répertoriés ailleurs</option>
-      </select>
-    </div>
-    <div class="mb-3">
-      <label for="Size" class="form-label">Size:</label>
-      <select id="Size" formControlName="Size" class="form-select">
-        <option value="Micro entreprise">Micro entreprise</option>
-        <option value="Entreprise de taille moyenne">Entreprise de taille moyenne</option>
-        <option value="Non disponible">Non disponible</option>
-        <option value="Petite entreprise">Petite entreprise</option>
-        <option value="Grande entreprise">Grande entreprise</option>
-      </select>
-    </div>
-    <div class="text-center">
-      <button type="submit" class="btn" style="background-color: rgba(139, 0, 0, 0.9); color: white;">
-        Predict
-      </button>
-    </div>
-  </form>
+  <input type="number" name="Rentabilite_Financiere" [(ngModel)]="clusteringFormModel.Rentabilite_Financiere" required placeholder="Rentabilité Financière"><br>
+
+  <input type="number" name="Resultat_Net" [(ngModel)]="clusteringFormModel.Resultat_Net" required placeholder="Résultat Net"><br>
+
+  <input type="number" name="Evolution_Chiffre_Affaires" [(ngModel)]="clusteringFormModel.Evolution_Chiffre_Affaires" required placeholder="Evolution Chiffre d’affaires"><br>
+
+  <input type="number" name="Chiffre_Affaires" [(ngModel)]="clusteringFormModel.Chiffre_Affaires" required placeholder="Chiffre d’affaires"><br>
+
+  <input type="number" name="Fond_Roulement" [(ngModel)]="clusteringFormModel.Fond_Roulement" required placeholder="Fonds de Roulement"><br>
+
+  <input type="number" name="Total_Dettes" [(ngModel)]="clusteringFormModel.Total_Dettes" required placeholder="Total Dettes"><br>
+
+  <select name="Type" [(ngModel)]="clusteringFormModel.Type" required>
+    <option value="">-- Type --</option>
+    <option>Partenariat</option>
+    <option>Coopérative / Mutuelle</option>
+    <option>Non disponible</option>
+    <option>Société commerciale</option>
+    <option>Divers / non répertoriés ailleurs</option>
+  </select><br>
+
+  <select name="Size" [(ngModel)]="clusteringFormModel.Size" required>
+    <option value="">-- Size --</option>
+    <option>Micro entreprise</option>
+    <option>Entreprise de taille moyenne</option>
+    <option>Non disponible</option>
+    <option>Petite entreprise</option>
+    <option>Grande entreprise</option>
+  </select><br>
+
+  <button type="submit">Prédire Cluster</button>
+</form>
+
+<div *ngIf="clusterResult !== null">
+  <h3>Résultat du Clustering :</h3>
+  <p>Le fournisseur appartient au cluster : <strong>{{ clusterResult }}</strong></p>
 </div>

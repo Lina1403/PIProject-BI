@@ -1,19 +1,49 @@
-<div class="container mt-5">
-  <h2 class="text-center mb-4">Human Detection</h2>
+<!-- src/app/human-detection/human-detection.component.html -->
 
-  <!-- Upload Button -->
-  <div class="text-center">
-    <button
-      class="btn"
-      (click)="uploadVideo()"
-      style="background-color: #8B0000; color: white; border: none;">
-      Upload Video
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Téléversez une vidéo pour l'analyse des mouvements humains</h2>
+
+  <!-- Formulaire d'upload de vidéo -->
+  <form (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <input type="file" class="form-control" (change)="onFileChange($event)" accept="video/*" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+      Analyser la vidéo
     </button>
+  </form>
+
+  <!-- Affichage du spinner lors de l'analyse -->
+  <div *ngIf="isLoading" class="text-center mt-4">
+    <div class="spinner-border text-primary" role="status"></div>
+    <p>Analyse en cours...</p>
   </div>
 
-  <!-- Video Upload Preview (if any video is uploaded) -->
-  <div *ngIf="videoUrl" class="mt-4 text-center">
-    <h4>Video Preview</h4>
-    <video [src]="videoUrl" controls class="w-100" height="400"></video>
+  <!-- Affichage des messages ou résultats -->
+  <div *ngIf="errorMessage" class="alert alert-danger mt-4">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="successMessage" class="alert alert-success mt-4">
+    {{ successMessage }}
+  </div>
+
+  <!-- Affichage des résultats (heatmap et movement chart) -->
+  <div *ngIf="heatmapPath && movementChartPath" class="mt-4">
+    <h4>Résultats de l'analyse :</h4>
+    <div>
+      <h5>Heatmap</h5>
+      <img [src]="heatmapPath" alt="Heatmap" class="img-fluid">
+    </div>
+    <div class="mt-3">
+      <h5>Movement Chart</h5>
+      <img [src]="movementChartPath" alt="Movement Chart" class="img-fluid">
+    </div>
+    <div *ngIf="clusterSalesPath" class="mt-3">
+      <h5>Carte des ventes par cluster</h5>
+      <img [src]="clusterSalesPath" alt="Cluster Sales Map" class="img-fluid">
+    </div>
+
   </div>
 </div>

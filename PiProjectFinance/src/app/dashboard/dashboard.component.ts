@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
@@ -7,25 +7,22 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   powerBiUrl: SafeResourceUrl;
   loading = true;
   error: string = null;
   userRole: string;
   userName: string;
 
-  // Configuration Power BI
   private readonly powerBiConfig = {
-    groupId: '104b6b09-ffed-4f4c-b80b-c8f4c51fe0a6',
-    reportId: 'de9745aa-ee3c-48b1-a96c-adb5d6051d73',
-    tenantId: '604f1a96-cbe8-43f8-abbf-f8eaf5d85730',
-    // Nouvelle structure des URLs avec paramètres complets
     embedUrls: {
-      '1': `https://app.powerbi.com/reportEmbed?reportId=de9745aa-ee3c-48b1-a96c-adb5d6051d73&groupId=104b6b09-ffed-4f4c-b80b-c8f4c51fe0a6&autoAuth=true&ctid=604f1a96-cbe8-43f8-abbf-f8eaf5d85730&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly9XQUJJLVVTLU5PUlRILUNFTlRSQUwtQS1QUklNQVJZLXJlZGlyZWN0LmFuYWx5c2lzLndpbmRvd3MubmV0IiwiZW1iZWRGZWF0dXJlcyI6eyJtb2Rlcm5FbWJlZCI6dHJ1ZX19`, // CEO
-      '2': `https://app.powerbi.com/reportEmbed?reportId=de9745aa-ee3c-48b1-a96c-adb5d6051d73&groupId=104b6b09-ffed-4f4c-b80b-c8f4c51fe0a6&autoAuth=true&ctid=604f1a96-cbe8-43f8-abbf-f8eaf5d85730&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly9XQUJJLVVTLU5PUlRILUNFTlRSQUwtQS1QUklNQVJZLXJlZGlyZWN0LmFuYWx5c2lzLndpbmRvd3MubmV0IiwiZW1iZWRGZWF0dXJlcyI6eyJtb2Rlcm5FbWJlZCI6dHJ1ZX19&roles=Accounting`, // Accounting Manager
-      '3': `https://app.powerbi.com/reportEmbed?reportId=de9745aa-ee3c-48b1-a96c-adb5d6051d73&groupId=104b6b09-ffed-4f4c-b80b-c8f4c51fe0a6&autoAuth=true&ctid=604f1a96-cbe8-43f8-abbf-f8eaf5d85730&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly9XQUJJLVVTLU5PUlRILUNFTlRSQUwtQS1QUklNQVJZLXJlZGlyZWN0LmFuYWx5c2lzLndpbmRvd3MubmV0IiwiZW1iZWRGZWF0dXJlcyI6eyJtb2Rlcm5FbWJlZCI6dHJ1ZX19&roles=SupplyChain` // Supply Chain Manager
+      '1': `https://app.powerbi.com/reportEmbed?reportId=de9745aa-ee3c-48b1-a96c-adb5d6051d73&groupId=104b6b09-ffed-4f4c-b80b-c8f4c51fe0a6&autoAuth=true&ctid=604f1a96-cbe8-43f8-abbf-f8eaf5d85730&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly9XQUJJLVVTLU5PUlRILUNFTlRSQUwtQS1QUklNQVJZLXJlZGlyZWN0LmFuYWx5c2lzLndpbmRvd3MubmV0IiwiZW1iZWRGZWF0dXJlcyI6eyJtb2Rlcm5FbWJlZCI6dHJ1ZX19`,
+      '2': `https://app.powerbi.com/reportEmbed?reportId=de9745aa-ee3c-48b1-a96c-adb5d6051d73&groupId=104b6b09-ffed-4f4c-b80b-c8f4c51fe0a6&autoAuth=true&ctid=604f1a96-cbe8-43f8-abbf-f8eaf5d85730&pageName=ReportSection2`,
+      '3': `https://app.powerbi.com/reportEmbed?reportId=de9745aa-ee3c-48b1-a96c-adb5d6051d73&groupId=104b6b09-ffed-4f4c-b80b-c8f4c51fe0a6&autoAuth=true&ctid=604f1a96-cbe8-43f8-abbf-f8eaf5d85730&pageName=ReportSection3`
     }
   };
+
+  private messageHandler = this.handlePowerBiMessages.bind(this);
 
   constructor(
     private router: Router,
@@ -34,6 +31,11 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkAuthAndLoadReport();
+    window.addEventListener('message', this.messageHandler, false);
+  }
+
+  ngOnDestroy(): void {
+    window.removeEventListener('message', this.messageHandler);
   }
 
   checkAuthAndLoadReport(): void {
@@ -70,22 +72,10 @@ export class DashboardComponent implements OnInit {
     this.error = null;
 
     try {
-      // Vérification que le rôle existe dans la configuration
-      if (!this.powerBiConfig.embedUrls[this.userRole]) {
-        throw new Error(`No Power BI configuration found for role ${this.userRole}`);
-      }
-
-      // Récupération de l'URL pré-configurée
       const embedUrl = this.powerBiConfig.embedUrls[this.userRole];
+      if (!embedUrl) throw new Error(`No Power BI configuration found for role ${this.userRole}`);
 
-      console.log('Power BI Embed URL:', embedUrl); // Debug log
-
-      // Sécurisation de l'URL
       this.powerBiUrl = this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
-
-      // Ajout d'un écouteur pour détecter les erreurs de chargement
-      window.addEventListener('message', this.handlePowerBiMessages.bind(this), false);
-
     } catch (e) {
       console.error('Error loading Power BI report:', e);
       this.error = 'Failed to load Power BI report: ' + e.message;
@@ -94,26 +84,18 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  // Nouvelle méthode pour gérer les messages de Power BI
   private handlePowerBiMessages(event: MessageEvent): void {
-    if (event.data && event.data.event) {
+    if (event.data?.event) {
       console.log('Power BI Message:', event.data);
 
       if (event.data.event === 'error') {
         this.error = 'Power BI loading error: ' + (event.data.detail || 'Unknown error');
         this.loading = false;
-      }
-
-      if (event.data.event === 'loaded') {
+      } else if (event.data.event === 'loaded') {
         this.error = null;
         this.loading = false;
       }
     }
-  }
-
-  ngOnDestroy(): void {
-    // Nettoyage de l'écouteur d'événements
-    window.removeEventListener('message', this.handlePowerBiMessages.bind(this));
   }
 
   logout(): void {
