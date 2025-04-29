@@ -14,6 +14,19 @@ export class DashboardComponent implements OnInit {
   userRole: string;
   userName: string;
 
+  // Configuration Power BI
+  private readonly powerBiConfig = {
+    groupId: '104b6b09-ffed-4f4c-b80b-c8f4c51fe0a6',
+    reportId: 'de9745aa-ee3c-48b1-a96c-adb5d6051d73',
+    tenantId: '604f1a96-cbe8-43f8-abbf-f8eaf5d85730',
+    // Nouvelle structure des URLs avec paramètres complets
+    embedUrls: {
+      '1': `https://app.powerbi.com/reportEmbed?reportId=de9745aa-ee3c-48b1-a96c-adb5d6051d73&groupId=104b6b09-ffed-4f4c-b80b-c8f4c51fe0a6&autoAuth=true&ctid=604f1a96-cbe8-43f8-abbf-f8eaf5d85730&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly9XQUJJLVVTLU5PUlRILUNFTlRSQUwtQS1QUklNQVJZLXJlZGlyZWN0LmFuYWx5c2lzLndpbmRvd3MubmV0IiwiZW1iZWRGZWF0dXJlcyI6eyJtb2Rlcm5FbWJlZCI6dHJ1ZX19`, // CEO
+      '2': `https://app.powerbi.com/reportEmbed?reportId=de9745aa-ee3c-48b1-a96c-adb5d6051d73&groupId=104b6b09-ffed-4f4c-b80b-c8f4c51fe0a6&autoAuth=true&ctid=604f1a96-cbe8-43f8-abbf-f8eaf5d85730&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly9XQUJJLVVTLU5PUlRILUNFTlRSQUwtQS1QUklNQVJZLXJlZGlyZWN0LmFuYWx5c2lzLndpbmRvd3MubmV0IiwiZW1iZWRGZWF0dXJlcyI6eyJtb2Rlcm5FbWJlZCI6dHJ1ZX19&roles=Accounting`, // Accounting Manager
+      '3': `https://app.powerbi.com/reportEmbed?reportId=de9745aa-ee3c-48b1-a96c-adb5d6051d73&groupId=104b6b09-ffed-4f4c-b80b-c8f4c51fe0a6&autoAuth=true&ctid=604f1a96-cbe8-43f8-abbf-f8eaf5d85730&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly9XQUJJLVVTLU5PUlRILUNFTlRSQUwtQS1QUklNQVJZLXJlZGlyZWN0LmFuYWx5c2lzLndpbmRvd3MubmV0IiwiZW1iZWRGZWF0dXJlcyI6eyJtb2Rlcm5FbWJlZCI6dHJ1ZX19&roles=SupplyChain` // Supply Chain Manager
+    }
+  };
+
   constructor(
     private router: Router,
     private sanitizer: DomSanitizer
@@ -38,44 +51,69 @@ export class DashboardComponent implements OnInit {
       this.loadPowerBiReport();
     } catch (e) {
       console.error('Error parsing user data', e);
-      this.router.navigate(['/login']);
+      this.error = 'Failed to load user data';
+      this.loading = false;
     }
   }
 
   getRoleName(role: string): string {
-    switch(role) {
-      case '1': return 'CEO';
-      case '2': return 'Accounting Manager';
-      case '3': return 'Supply Chain Manager';
-      default: return 'Unknown';
-    }
+    const roles = {
+      '1': 'CEO',
+      '2': 'Accounting Manager',
+      '3': 'Supply Chain Manager'
+    };
+    return roles[role] || 'Unknown';
   }
 
   loadPowerBiReport(): void {
-    const groupId = '104b6b09-ffed-4f4c-b80b-c8f4c51fe0a6';
-    const reportId = 'de9745aa-ee3c-48b1-a96c-adb5d6051d73';
-    const ctid = '604f1a96-cbe8-43f8-abbf-f8eaf5d85730';
+    this.loading = true;
+    this.error = null;
 
-    let embedUrl: string;
+    try {
+      // Vérification que le rôle existe dans la configuration
+      if (!this.powerBiConfig.embedUrls[this.userRole]) {
+        throw new Error(`No Power BI configuration found for role ${this.userRole}`);
+      }
 
-    switch(this.userRole) {
-      case '1': // Admin
-        embedUrl = `https://app.powerbi.com/reportEmbed?reportId=${reportId}&groupId=${groupId}&autoAuth=true&ctid=${ctid}`;
-        break;
-      case '2': // Manager
-        embedUrl = `https://app.powerbi.com/groups/${groupId}/reports/${reportId}/a218699726df86c71a63?experience=power-bi`;
-        break;
-      case '3': // Standard User
-        embedUrl = `https://app.powerbi.com/groups/${groupId}/reports/${reportId}/a651fcc6fe23244ebb0f?experience=power-bi`;
-        break;
-      default:
-        this.error = 'User role not recognized';
-        this.loading = false;
-        return;
+      // Récupération de l'URL pré-configurée
+      const embedUrl = this.powerBiConfig.embedUrls[this.userRole];
+
+      console.log('Power BI Embed URL:', embedUrl); // Debug log
+
+      // Sécurisation de l'URL
+      this.powerBiUrl = this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
+
+      // Ajout d'un écouteur pour détecter les erreurs de chargement
+      window.addEventListener('message', this.handlePowerBiMessages.bind(this), false);
+
+    } catch (e) {
+      console.error('Error loading Power BI report:', e);
+      this.error = 'Failed to load Power BI report: ' + e.message;
+    } finally {
+      this.loading = false;
     }
+  }
 
-    this.powerBiUrl = this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
-    this.loading = false;
+  // Nouvelle méthode pour gérer les messages de Power BI
+  private handlePowerBiMessages(event: MessageEvent): void {
+    if (event.data && event.data.event) {
+      console.log('Power BI Message:', event.data);
+
+      if (event.data.event === 'error') {
+        this.error = 'Power BI loading error: ' + (event.data.detail || 'Unknown error');
+        this.loading = false;
+      }
+
+      if (event.data.event === 'loaded') {
+        this.error = null;
+        this.loading = false;
+      }
+    }
+  }
+
+  ngOnDestroy(): void {
+    // Nettoyage de l'écouteur d'événements
+    window.removeEventListener('message', this.handlePowerBiMessages.bind(this));
   }
 
   logout(): void {
