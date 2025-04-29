@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -6,19 +8,41 @@ import { Component } from '@angular/core';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  roleSelected = false; // Variable pour savoir si un rôle a été sélectionné
-  selectedRole: string = ''; // Pour afficher le rôle sélectionné dans le message de bienvenue
-  username: string = '';
-  password: string = '';
+  email = '';
+  password = '';
+  isLoading = false;
+  errorMessage = '';
 
-  // Gérer la sélection du rôle
-  selectRole(role: string) {
-    this.selectedRole = role;
-    this.roleSelected = true; // Lorsque le rôle est sélectionné, afficher le message de bienvenue
-  }
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
-  onLogin() {
-    console.log('Login attempted');
-    // Gérer la logique de connexion ici
+  login() {
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    const credentials = { email: this.email, password: this.password };
+
+    this.http.post<any>('http://localhost:5000/api/login', credentials).subscribe({
+      next: (res) => {
+        if (res && res.role) {
+          // Save role and user info
+          localStorage.setItem('role', res.role.toString());
+          localStorage.setItem('user', JSON.stringify(res.user || { email: this.email }));
+
+          // Redirect to dashboard
+          this.router.navigate(['/dashboard']);
+        } else {
+          this.errorMessage = 'Invalid server response';
+        }
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.errorMessage = err.error?.message || 'Login failed. Please check your credentials.';
+        this.isLoading = false;
+        console.error('Login error:', err);
+      }
+    });
   }
 }

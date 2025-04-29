@@ -1,9 +1,9 @@
 /* Sidebar */
-
 @import '../../../styles.scss';
+
 .sidebar {
   min-height: calc(100vh - #{$navbar-height});
-  background: $sidebar-bg;
+  background: #fff5f5 !important; /* Rouge très clair */
   font-family: $type1-regular;
   padding: 0;
   width: $sidebar-width-lg;
@@ -111,7 +111,7 @@
         .nav-link {
           .menu-title {
             color: $sidebar-menu-active-color;
-            font-family: $type1-medium;            
+            font-family: $type1-medium;
           }
           i {
             color: theme-color(primary);
@@ -120,7 +120,7 @@
       }
 
       &:hover{
-        background: $sidebar-menu-hover-bg;
+        background: #ffebee !important; /* Couleur de survol */
       }
       &.nav-profile {
         .nav-link {
@@ -129,14 +129,17 @@
           border-top: 0;
           padding: 1.25rem 0;
           .nav-profile-image {
-            width: 44px;
-            height: 44px;
+            width: 80px; /* ou la même taille que sur home page */
+            height: 80px;
+            margin: 0 auto; /* centre l'image horizontalement */
             img {
-              width: 44px;
-              height: 44px;
-              border-radius: 100%;
+              width: 100%;
+              height: 100%;
+              object-fit: cover; /* ajuste bien l'image */
+              border-radius: 50%; /* cercle si tu veux un rond */
             }
           }
+
           .nav-profile-text {
             display: flex;
             flex-direction: column;
@@ -229,7 +232,6 @@
   }
 }
 
-
 // Sidebar icon only layout start
 :host-context(.sidebar-icon-only) {
   @media(min-width: 992px) {
@@ -245,7 +247,7 @@
           .nav-link {
             display: block;
             padding-left: .5rem;
-            padding-right: .5rem;            
+            padding-right: .5rem;
             text-align: center;
             position: static;
             .menu-title,
@@ -254,7 +256,7 @@
             }
             .menu-title {
               @include border-radius(0 5px 5px 0px);
-              background: $sidebar-menu-hover-bg;
+              background: #ffebee; /* Couleur de survol */
             }
             i {
               &.menu-icon {
@@ -280,7 +282,7 @@
               .menu-title {
                 @include display-flex;
                 @include align-items(center);
-                background: $sidebar-menu-hover-bg;
+                background: #ffebee; /* Couleur de survol */
                 padding: 0.5rem 1.4rem;
                 left: $sidebar-width-icon;
                 position: absolute;
@@ -291,7 +293,7 @@
                 z-index: 1;
                 line-height: 1.8;
                 -webkit-box-shadow: 4px 0px 7px 0px rgba(182, 185, 189, 0.25);
-                        box-shadow: 4px 0px 7px 0px rgba(182, 185, 189, 0.25);              
+                        box-shadow: 4px 0px 7px 0px rgba(182, 185, 189, 0.25);
                 &:after {
                   display: none;
                 }
@@ -347,7 +349,6 @@
   }
 }
 // Sidebar icon only layout end
-
 
 /* style for off-canvas menu*/
 @media screen and (max-width: 991px) {

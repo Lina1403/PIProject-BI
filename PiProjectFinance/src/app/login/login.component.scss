@@ -1,4 +1,14 @@
-/* La page login occupe toute la taille de l'écran */
+/* Variables CSS */
+:root {
+  --primary-color: #8B0000;
+  --primary-hover: #6B0000;
+  --primary-active: #5B0000;
+  --text-dark: #2d3748;
+  --text-light: #f8f9fa;
+  --transition-speed: 0.3s;
+}
+
+/* Reset et styles de base */
 .login-page {
   position: fixed;
   top: 0;
@@ -8,9 +18,10 @@
   overflow: hidden;
   margin: 0;
   padding: 0;
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
 }
 
-/* Vidéo en plein écran */
+/* Vidéo de fond améliorée */
 .bg-video {
   position: fixed;
   top: 0;
@@ -19,134 +30,205 @@
   height: 100vh;
   object-fit: cover;
   z-index: -1;
+  filter: brightness(0.7);
 }
 
-/* Overlay sombre pour améliorer la lisibilité */
+/* Overlay avec dégradé moderne */
 .login-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.4) 100%);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 2;
+  padding: 2rem;
 }
 
-/* Conteneur principal */
+/* Conteneur principal modernisé */
 .login-container {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 3rem;
   text-align: center;
   width: 100%;
   max-width: 500px;
-  margin: 0 auto;
-  padding: 2rem;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s ease;
+  border-radius: 16px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
+  animation: fadeInUp 0.8s ease-out;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Cartes de sélection des rôles */
-.roles-container {
-  display: flex;
-  justify-content: center;  /* Centrer les cartes dans le conteneur */
-  gap: 2rem;  /* Espacement entre les cartes */
-  flex-wrap: wrap;  /* Permet aux cartes de se réorganiser si elles ne tiennent pas sur une ligne */
-  margin-top: 3rem;
-  width: 100%;  /* Utilisation de toute la largeur */
-  max-width: 1000px; /* Limiter la largeur maximale */
-  margin: 0 auto; /* Centrage des cartes */
-}
-
-.role-card {
-  background: #e57373;  /* Rouge clair */
-  color: white;  /* Texte blanc */
-  padding: 1.5rem;
-  text-align: center;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 200px;  /* Largeur fixe des cartes */
-  cursor: pointer;
-  transition: transform 0.3s, box-shadow 0.3s;
-  flex-shrink: 0;  /* Empêche les cartes de se rétrécir */
-  min-width: 200px;  /* Fixe une largeur minimale pour chaque carte */
-}
-
-.role-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.role-card i {
-  font-size: 4rem;
-  color: #fff;
-}
-
-.role-card span {
-  display: block;
-  font-size: 1.3rem;
-  margin-top: 0.5rem;
-}
-
-.role-card p {
-  margin-top: 0.5rem;
-  color: #eee;
-  font-size: 1rem;
-}
-
-/* Message de bienvenue */
-.welcome-message {
+/* Titres */
+.login-container h2 {
+  font-size: 2.5rem;
+  color: var(--primary-color);
   margin-bottom: 1.5rem;
-}
-
-.welcome-message h2 {
-  font-size: 2rem;
-  color: #333;
+  font-weight: 700;
 }
 
 .welcome-message p {
-  font-size: 1.2rem;
-  color: #666;
+  color: #555;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
 }
 
-/* Formulaire de connexion ajusté */
+/* Formulaire de connexion */
 form {
-  background: #fff;
-  padding: 2.5rem;  /* Augmenter l'espace de padding */
-  border-radius: 10px;  /* Coins plus arrondis */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Ombre plus marquée */
-  margin-top: 2rem; /* Décalage du formulaire */
+  background: white;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
 }
 
 .form-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.8rem;
   text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #555;
 }
 
 .form-control {
   width: 100%;
   padding: 1rem;
   font-size: 1rem;
-  box-sizing: border-box;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 8px;
+  transition: border-color 0.3s;
 }
 
-.btn-signin {
-  width: 100%;
-  padding: 1rem;
-  background-color: #8b0000;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
+.form-control:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.1);
+}
+
+/* Conteneur mot de passe avec icône */
+.password-input-container {
+  position: relative;
+}
+
+.password-input-container .form-control {
+  padding-right: 40px;
+}
+
+/* Icône "show password" */
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
   cursor: pointer;
-  transition: background-color 0.3s;
+  color: #666;
+  transition: color 0.2s;
+  background: none;
+  border: none;
+  padding: 0 8px;
+}
+
+.toggle-password:hover {
+  color: var(--primary-color);
+}
+
+.toggle-password i {
+  font-size: 1.2rem;
+  transition: transform 0.2s;
+}
+
+.toggle-password.active i {
+  transform: scale(1.1);
+}
+
+/* Bouton de connexion */
+.btn-signin {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 1rem 2.5rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-speed) ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  margin-top: 1rem;
+}
+
+.btn-signin:hover:not(:disabled) {
+  background-color: var(--primary-hover);
+  border-color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-signin:active:not(:disabled) {
+  transform: translateY(0);
+  background-color: var(--primary-active);
 }
 
 .btn-signin:disabled {
-  background-color: #5a0000;
+  background-color: #cccccc;
   cursor: not-allowed;
+  opacity: 0.7;
 }
 
-.btn-signin:not(:disabled):hover {
-  background-color: #710000;
+.btn-signin::after {
+  content: '→';
+  margin-left: 10px;
+  transition: transform var(--transition-speed) ease;
+  display: inline-block;
+}
+
+.btn-signin:hover:not(:disabled)::after {
+  transform: translateX(4px);
+}
+
+/* Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .login-container {
+    padding: 2rem;
+    max-width: 90%;
+  }
+
+  .login-container h2 {
+    font-size: 2rem;
+  }
+
+  form {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-overlay {
+    padding: 1rem;
+  }
+
+  .login-container h2 {
+    font-size: 1.8rem;
+  }
 }

@@ -1,16 +1,27 @@
-/* Home page occupe toute la taille de l'écran */
+/* Variables CSS pour une cohérence */
+:root {
+  --primary-color: #8B0000; /* Rouge foncé */
+  --primary-hover: #6B0000; /* Rouge plus foncé au survol */
+  --primary-active: #5B0000; /* Pour l'état actif */
+  --text-dark: #2d3748;
+  --text-light: #f8f9fa;
+  --transition-speed: 0.3s;
+}
+
+/* Reset et styles de base */
 .home-page {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw; /* 100% de la largeur de l'écran */
-  height: 100vh; /* 100% de la hauteur de l'écran */
+  width: 100vw;
+  height: 100vh;
   overflow: hidden;
   margin: 0;
   padding: 0;
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
 }
 
-/* Vidéo en plein écran, derrière le contenu */
+/* Vidéo de fond améliorée */
 .bg-video {
   position: fixed;
   top: 0;
@@ -18,79 +29,189 @@
   width: 100vw;
   height: 100vh;
   object-fit: cover;
-  z-index: -1; /* Derrière tout */
+  z-index: -1;
+  filter: brightness(0.7);
 }
 
-/* Overlay semi-transparent pour améliorer la lisibilité */
+/* Overlay avec dégradé moderne */
 .login-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 100%);
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   z-index: 2;
+  padding: 2rem;
 }
 
-/* Conteneur du logo en haut à gauche */
+/* Logo avec animation au survol */
 .logo-container {
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: 30px;
+  left: 30px;
   z-index: 3;
+  transition: transform 0.3s ease;
 }
 
-/* Logo ajusté pour qu'il soit plus grand et visible */
+.logo-container:hover {
+  transform: scale(1.05);
+}
+
 .logo {
-  height: 60px; /* Logo un peu plus grand */
+  height: 70px;
   width: auto;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
-/* Conteneur du texte et bouton centré avec une carte */
+/* Conteneur principal modernisé */
 .login-container {
-  background: rgba(255, 255, 255, 0.8); /* Carte semi-transparente avec fond clair */
-  padding: 2rem;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 3rem;
   text-align: center;
   z-index: 3;
-  color: #333; /* Couleur de texte plus foncée pour un meilleur contraste */
-  max-width: 600px; /* Limite la largeur du conteneur */
+  color: var(--text-dark);
+  max-width: 650px;
   width: 100%;
-  border-radius: 8px; /* Coins arrondis pour la carte */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Ombre pour la carte */
+  border-radius: 16px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(5px);
+  animation: fadeInUp 0.8s ease-out;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Titre principal */
-.login-container h6 {
-  font-size: 26px;
-  font-weight: bold;
-  margin-bottom: 15px;
-  color: #333; /* Texte plus foncé */
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* Sous-titre */
-.login-container h2 {
-  font-size: 36px;
-  margin-bottom: 30px;
-  font-style: italic;
-  color: #333; /* Texte plus foncé */
+/* Typographie améliorée */
+.tagline {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
-/* Bouton */
+.main-heading {
+  font-size: 2.8rem;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.main-heading span {
+  color: var(--primary-color);
+  font-weight: 800;
+}
+
+.subtext {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  color: #4a5568;
+  max-width: 80%;
+  line-height: 1.6;
+}
+
+/* Bouton modernisé avec icône */
 .btn-start {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   margin-top: 1rem;
-  padding: 0.75rem 1.5rem;
-  background-color: #8b0000;
+  padding: 1rem 2.5rem;
+  background-color: var(--primary-color);
   color: white;
   text-decoration: none;
-  border-radius: 4px;
+  border-radius: 50px;
   cursor: pointer;
-  transition: background-color 0.3s;
-  font-size: 18px; /* Agrandit le texte du bouton */
+  transition: all var(--transition-speed) ease;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  background-color: #8B0000; /* Fond rouge foncé */
+  color: white; /* Texte blanc */
+  border: 2px solid #8B0000;
 }
 
-/* Effet au survol du bouton */
 .btn-start:hover {
-  background-color: #710000;
+  background-color: #6B0000; /* Rouge plus foncé */
+  border-color: #6B0000;
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-start:active {
+  transform: translateY(0);
+  background-color: var(--primary-active);
+}
+
+.arrow-icon {
+  width: 24px;
+  height: 24px;
+  margin-left: 10px;
+  transition: transform var(--transition-speed) ease;
+}
+
+.btn-start:hover .arrow-icon {
+  transform: translateX(4px);
+}
+
+/* Footer minimaliste */
+.footer {
+  position: absolute;
+  bottom: 20px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  z-index: 3;
+}
+
+/* Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .login-container {
+    padding: 2rem;
+    max-width: 90%;
+  }
+
+  .main-heading {
+    font-size: 2rem;
+  }
+
+  .logo {
+    height: 50px;
+  }
+
+  .tagline {
+    font-size: 1rem;
+  }
+
+  .subtext {
+    font-size: 0.9rem;
+    max-width: 100%;
+  }
+
+  .btn-start {
+    padding: 0.8rem 1.8rem;
+    font-size: 1rem;
+  }
 }

@@ -1,33 +1,39 @@
 <div class="home-page">
   <!-- Vidéo de fond -->
-  <video
-    id="bg-video"
-    class="bg-video"
-    autoplay
-    muted
-    loop
-    playsinline
-  >
+  <video id="bg-video" class="bg-video" autoplay muted loop playsinline>
     <source src="assets/images/monoprix.mp4" type="video/mp4">
     <source src="assets/images/monoprix.webm" type="video/webm">
     <source src="assets/images/monoprix.ogv" type="video/ogv">
     Your browser does not support the video tag.
   </video>
 
-  <!-- Overlay sombre pour améliorer la lisibilité du contenu -->
+  <!-- Overlay avec dégradé pour améliorer la lisibilité -->
   <div class="login-overlay">
-    <!-- Logo en haut à gauche -->
+    <!-- Logo en haut à gauche avec animation -->
     <div class="logo-container">
       <img src="assets/images/logo.png" alt="Logo" class="logo" />
     </div>
 
-    <!-- Conteneur avec une carte pour le texte et le bouton -->
+    <!-- Conteneur principal avec animation -->
     <div class="login-container">
-      <h6>Make Smarter Decisions with DashMarket</h6>
-      <h2><em>everything you need in one platform.</em></h2>
+      <div class="content-wrapper">
+        <h6 class="tagline">Make Smarter Decisions with DashMarket</h6>
+        <h2 class="main-heading"><span>Everything you need</span> in one platform.</h2>
+        <p class="subtext">Streamline your workflow and gain valuable insights with our all-in-one solution.</p>
 
-      <!-- Bouton avec navigation vers login -->
-      <button routerLink="/login" class="btn-start">Start Exploring</button>
+        <!-- Bouton avec effet moderne -->
+        <button routerLink="/login" class="btn-start">
+          Start Exploring
+          <svg class="arrow-icon" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Footer minimaliste -->
+    <div class="footer">
+      <span>© 2023 DashMarket. All rights reserved.</span>
     </div>
   </div>
 </div>

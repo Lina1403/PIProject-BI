@@ -1,69 +1,43 @@
 <div class="login-page">
-  <!-- Vidéo de fond -->
+  <!-- Background video -->
   <video class="bg-video" autoplay muted loop playsinline preload="auto">
     <source src="assets/images/monoprix.mp4" type="video/mp4" />
-    Your browser does not support the video tag.
+    Your browser does not support videos.
   </video>
 
-  <!-- Overlay + Formulaire -->
+  <!-- Overlay + Form -->
   <div class="login-overlay">
     <div class="login-container">
-      <div *ngIf="!roleSelected; else signInForm">
-        <h2>Select Your Role</h2>
-
-        <!-- Cartes de sélection de rôle avec des icônes -->
-        <div class="roles-container">
-          <div class="role-card" (click)="selectRole('CEO')">
-            <i class="fa fa-crown"></i>
-            <span>CEO</span>
-            <p>Lead the company and set strategic directions.</p>
-          </div>
-          <div class="role-card" (click)="selectRole('Supply Chain Manager')">
-            <i class="fa fa-truck"></i>
-            <span>Supply Chain Manager</span>
-            <p>Manage logistics and supply chain operations.</p>
-          </div>
-          <div class="role-card" (click)="selectRole('Accounting Manager')">
-            <i class="fa fa-calculator"></i>
-            <span>Accounting Manager</span>
-            <p>Oversee financial records and accounting functions.</p>
-          </div>
-        </div>
+      <div class="welcome-message">
+        <h2>Welcome</h2>
+        <p>Please login to continue.</p>
       </div>
 
-      <!-- Template pour afficher le formulaire de connexion après la sélection du rôle -->
-      <ng-template #signInForm>
-        <div class="welcome-message">
-          <h2>Welcome, {{ selectedRole }}</h2>
-          <p>Please sign in to continue.</p>
+      <!-- Login form -->
+      <form (ngSubmit)="login()" *ngIf="!isLoading">
+        <div class="form-group">
+          <label>Email:</label>
+          <input type="email" class="form-control" [(ngModel)]="email" name="email" required>
         </div>
 
-        <form (ngSubmit)="onLogin()" #f="ngForm">
-          <div class="form-group">
-            <label for="username">Username</label>
-            <input
-              id="username"
-              name="username"
-              type="text"
-              class="form-control"
-              [(ngModel)]="username"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              class="form-control"
-              [(ngModel)]="password"
-              required
-            />
-          </div>
-          <button type="submit" class="btn btn-signin" [disabled]="f.invalid">Sign In</button>
-        </form>
-      </ng-template>
+        <div class="form-group">
+          <label>Password:</label>
+          <input type="password" class="form-control" [(ngModel)]="password" name="password" required>
+        </div>
+
+        <div *ngIf="errorMessage" class="alert alert-danger">
+          {{errorMessage}}
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Login</button>
+      </form>
+
+      <div *ngIf="isLoading" class="text-center">
+        <div class="spinner-border text-primary" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <p>Logging in...</p>
+      </div>
     </div>
   </div>
 </div>

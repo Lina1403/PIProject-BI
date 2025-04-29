@@ -22,6 +22,8 @@ import { SafePipe } from './safe.pipe';
 import { LoginComponent } from './login/login.component';
 import { HumanDetectionComponent } from './human-detection/human-detection.component';
 import { HomeComponent } from './home/home.component';
+import { PaymentPredictionComponent } from './payment-prediction/payment-prediction.component';
+import { ClusteringComponent } from './clustering/clustering.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +41,8 @@ import { HomeComponent } from './home/home.component';
     LoginComponent,
     HumanDetectionComponent,
     HomeComponent,
+    PaymentPredictionComponent,
+    ClusteringComponent,
 
   ],
   imports: [

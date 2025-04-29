@@ -1,30 +1,50 @@
-<div class="row" id="proBanner">
-  <div class="col-12">
-    <span class="align-items-center purchase-popup">
-      <p>Get tons of UI components, Plugins, multiple layouts, 20+ sample pages, and more!</p>
-      <a href="https://www.bootstrapdash.com/product/purple-angular/?utm_source=organic&utm_medium=banner&utm_campaign=free-preview" target="_blank" class="btn download-button purchase-button btn-purple ml-auto btn-primary">Upgrade To Pro</a>
-      <i class="mdi mdi-close"  (click)="toggleProBanner($event)"  id="bannerClose"></i>
-    </span>
-  </div>
+<div class="row" id="proBanner" *ngIf="false">
+  <!-- Your pro banner here -->
 </div>
+
 <div class="page-header">
   <h3 class="page-title">
-    <span class="page-title-icon bg-gradient-primary text-white mr-2">
-      <i class="mdi mdi-home"></i>
-    </span>
+
     Dashboard
+
   </h3>
   <nav aria-label="breadcrumb">
     <ul class="breadcrumb">
       <li class="breadcrumb-item active" aria-current="page">
-        <span></span>Overview
+        <span>Welcome, ( {{getRoleName(userRole)}})</span>
         <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
       </li>
     </ul>
   </nav>
 </div>
 
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Power BI Report</h4>
 
+        <div *ngIf="loading" class="text-center py-5">
+          <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+          <p class="mt-2">Loading Power BI report...</p>
+        </div>
 
+        <div *ngIf="error" class="alert alert-danger">
+          <i class="mdi mdi-alert-circle-outline"></i> {{error}}
+        </div>
 
-
+        <div *ngIf="!loading && !error" class="report-container">
+          <iframe
+            [src]="powerBiUrl"
+            width="100%"
+            height="600px"
+            frameborder="0"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
