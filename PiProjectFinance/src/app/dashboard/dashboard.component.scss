@@ -1,0 +1,44 @@
+.dashboard-container {
+  padding: 20px;
+}
+
+.loading-container {
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.error-container {
+  .error-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    i {
+      font-size: 1.2rem;
+    }
+  }
+
+  .troubleshooting-tips {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 12px;
+    border-radius: 4px;
+
+    h5 {
+      font-size: 1rem;
+      margin-bottom: 8px;
+    }
+
+    ul {
+      padding-left: 20px;
+      margin-bottom: 0;
+    }
+  }
+}
+
+.report-container {
+  position: relative;
+  min-height: 400px;
+}

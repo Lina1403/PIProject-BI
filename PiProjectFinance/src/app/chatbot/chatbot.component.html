@@ -1,0 +1,22 @@
+<div id="chat-container">
+  <h2>Monoprix Chatbot</h2>
+
+  <!-- Chatbox with scrolling feature -->
+  <div id="chat-box">
+    <div *ngFor="let msg of chatMessages" [ngClass]="msg.sender">
+      {{ msg.message }}
+    </div>
+  </div>
+
+  <!-- User input with responsive styling -->
+  <div class="input-container">
+    <input
+      type="text"
+      [(ngModel)]="userInput"
+      (keydown)="onEnter($event)"
+      placeholder="Ask a question..."
+      class="chat-input"
+    />
+    <button id="send-button" (click)="sendMessage()" class="send-button">Send</button>
+  </div>
+</div>

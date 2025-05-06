@@ -1,0 +1,62 @@
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+  <ul class="nav">
+    <li class="nav-item nav-profile">
+      <a href="javascript:;" class="nav-link">
+        <div class="nav-profile-image">
+        </div>
+
+      </a>
+    </li>
+    <li class="nav-item" [ngClass]="{ 'active': dashboard.isActive }">
+      <a class="nav-link" routerLink="/dashboard" routerLinkActive #dashboard="routerLinkActive">
+        <span class="menu-title">Dashboard</span>
+        <i class="mdi mdi-home menu-icon"></i>
+      </a>
+    </li>
+
+    <li class="nav-item" [ngClass]="{ 'active': forms.isActive }">
+      <a class="nav-link" routerLink="classification-form" routerLinkActive #forms="routerLinkActive">
+        <span class="menu-title">Suppliers classification</span>
+        <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+      </a>
+    </li>
+
+    <li class="nav-item" [ngClass]="{ 'active': humanDetection.isActive }">
+      <a class="nav-link" routerLink="/human-detection" routerLinkActive #humanDetection="routerLinkActive">
+        <span class="menu-title">Human Detection</span>
+        <i class="mdi mdi-account-search menu-icon"></i>
+      </a>
+    </li>
+
+    <li class="nav-item" [ngClass]="{ 'active': paymentPrediction.isActive }">
+      <a class="nav-link" routerLink="/payment-prediction" routerLinkActive #paymentPrediction="routerLinkActive">
+        <span class="menu-title">Payment Prediction</span>
+        <i class="mdi mdi-cash menu-icon"></i>
+      </a>
+    </li>
+
+    <li class="nav-item" [ngClass]="{ 'active': clustering.isActive }">
+      <a class="nav-link" routerLink="/clustering" routerLinkActive #clustering="routerLinkActive">
+        <span class="menu-title">Clustering</span>
+        <i class="mdi mdi-chart-scatter-plot menu-icon"></i>
+      </a>
+    </li>
+
+
+
+
+
+  <li class="nav-item" [ngClass]="{ 'active': chatbot.isActive }">
+    <a class="nav-link" routerLink="/chatbot" routerLinkActive #chatbot="routerLinkActive">
+      <span class="menu-title">Chatbot</span>
+      <i class="mdi mdi-robot menu-icon"></i> <!-- Optional icon for the chatbot -->
+    </a>
+    <li class="nav-item" [ngClass]="{ 'active': cashflow.isActive }">
+      <a class="nav-link" routerLink="/cash-flow" routerLinkActive #cashflow="routerLinkActive">
+        <span class="menu-title">Cashflow</span>
+        <i class="mdi mdi-bank menu-icon"></i>
+      </a>
+    </li>
+
+  </ul>
+</nav>

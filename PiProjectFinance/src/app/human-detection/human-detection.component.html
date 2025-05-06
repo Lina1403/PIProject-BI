@@ -1,0 +1,87 @@
+<!-- src/app/human-detection/human-detection.component.html -->
+
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Téléversez une vidéo pour l'analyse des mouvements humains</h2>
+
+  <!-- Formulaire d'upload de vidéo -->
+<form (ngSubmit)="onSubmit()" class="mb-4">
+  <div class="mb-3">
+    <!-- Style personnalisé pour le bouton de sélection de fichier -->
+    <label for="fileInput" class="btn btn-outline-primary w-100 text-center py-3">
+      <i class="bi bi-upload me-2"></i>
+      Choisir une vidéo
+    </label>
+    <input
+      type="file"
+      id="fileInput"
+      class="form-control d-none"
+      (change)="onFileChange($event)"
+      accept="video/*"
+      required
+    />
+    <!-- Affichage du nom du fichier sélectionné -->
+    <div *ngIf="selectedFileName" class="mt-2 text-center text-muted">
+      Fichier sélectionné : {{ selectedFileName }}
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary w-100" [disabled]="isLoading">
+    <i *ngIf="isLoading" class="bi bi-arrow-clockwise spinner-border spinner-border-sm me-2"></i>
+    Analyser la vidéo
+  </button>
+</form>
+
+  <!-- Affichage du spinner lors de l'analyse -->
+  <div *ngIf="isLoading" class="text-center mt-4">
+    <div class="spinner-border text-primary" role="status"></div>
+    <p class="mt-2">Analyse en cours... Veuillez patienter.</p>
+  </div>
+
+  <!-- Affichage des messages ou résultats -->
+  <div *ngIf="errorMessage" class="alert alert-danger mt-4 d-flex align-items-center">
+    <i class="bi bi-x-circle me-2"></i>
+    <span>{{ errorMessage }}</span>
+  </div>
+
+  <div *ngIf="successMessage" class="alert alert-success mt-4 d-flex align-items-center">
+    <i class="bi bi-check-circle me-2"></i>
+    <span>{{ successMessage }}</span>
+  </div>
+
+  <!-- Affichage des résultats (heatmap et movement chart) -->
+  <div *ngIf="heatmapPath && movementChartPath" class="mt-4">
+    <h4 class="text-center mb-3">Résultats de l'analyse :</h4>
+
+    <div class="card mb-3">
+      <div class="card-header">
+        <h5 class="card-title">Heatmap</h5>
+      </div>
+      <div class="card-body text-center">
+        <img [src]="heatmapPath" alt="Heatmap" class="img-fluid rounded shadow-sm">
+      </div>
+    </div>
+
+    <div class="card mb-3">
+      <div class="card-header">
+        <h5 class="card-title">Movement Chart</h5>
+      </div>
+      <div class="card-body text-center">
+        <img [src]="movementChartPath" alt="Movement Chart" class="img-fluid rounded shadow-sm">
+      </div>
+    </div>
+
+    <div *ngIf="clusterSalesPath" class="card mb-3">
+      <div class="card-header">
+        <h5 class="card-title">Carte des ventes par cluster</h5>
+      </div>
+      <div class="card-body text-center">
+        <img [src]="clusterSalesPath" alt="Cluster Sales Map" class="img-fluid rounded shadow-sm">
+      </div>
+    </div>
+    <div *ngIf="recommendations" class="alert alert-info mt-4">
+      <h5>🔍 Recommandations basées sur l’analyse :</h5>
+      <pre style="white-space: pre-wrap">{{ recommendations }}</pre>
+    </div>
+
+  </div>
+</div>

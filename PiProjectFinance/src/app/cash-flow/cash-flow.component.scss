@@ -1,0 +1,52 @@
+body {
+  background-color: #f9f9f9;
+  padding: 30px;
+}
+
+.table th, .table td {
+  font-size: 14px;
+}
+
+.alert-shortage {
+  background-color: #ffe5e5;
+}
+
+.btn-primary {
+  background-color: #e60012;
+  border-color: #e60012;
+}
+
+.btn-primary:hover {
+  background-color: #cc0010;
+  border-color: #cc0010;
+}
+
+.table-dark {
+  background-color: #e60012;
+  color: white;
+}
+
+.table-dark th {
+  background-color: #e60012;
+}
+
+.badge-danger {
+  background-color: #e60012;
+}
+
+.badge-success {
+  background-color: #28a745;
+}
+
+.alert-info {
+  background-color: #f2dede;
+  color: #e60012;
+}
+
+h2, h4, h5 {
+  color: #e60012;
+}
+
+.text-danger {
+  color: #e60012 !important;
+}

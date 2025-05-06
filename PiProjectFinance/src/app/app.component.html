@@ -1,0 +1,13 @@
+<app-navbar *ngIf="showNavbar"></app-navbar>
+<div class="container-fluid page-body-wrapper" [ngClass]="{ 'full-page-wrapper': !showSidebar }">
+  <app-sidebar *ngIf="showSidebar"></app-sidebar>
+  <div class="main-panel" [ngClass]="{ 'w-100': !showSidebar }">
+    <div class="content-wrapper">
+      <app-spinner *ngIf="isLoading"></app-spinner>
+      <div *ngIf="!isLoading">
+        <router-outlet></router-outlet> <!-- Ici ta Home est affichée -->
+      </div>
+    </div>
+    <app-footer *ngIf="showFooter"></app-footer>
+  </div>
+</div>

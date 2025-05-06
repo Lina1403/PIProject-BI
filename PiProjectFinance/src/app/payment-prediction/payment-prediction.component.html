@@ -1,0 +1,35 @@
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Prédiction de Paiement</h2>
+
+  <!-- Formulaire de soumission de date -->
+  <form (ngSubmit)="onSubmit()" #paymentForm="ngForm" class="mb-4">
+    <div class="mb-3">
+      <label for="date" class="form-label">Date de prédiction</label>
+      <input
+        type="date"
+        id="date"
+        name="date"
+        [(ngModel)]="selectedDate"
+        required
+        class="form-control"
+      />
+    </div>
+
+    <button
+      type="submit"
+      class="btn btn-primary w-100">
+      Calculer la prédiction
+    </button>
+  </form>
+
+  <!-- Affichage du montant prédit -->
+  <div *ngIf="predictedAmount !== null" class="alert alert-success mt-4">
+    <h5 class="alert-heading">Résultat de la Prédiction</h5>
+    <p>Le montant prédit pour le {{ selectedDate }} est : <strong>{{ predictedAmount }} €    </strong></p>
+  </div>
+
+  <!-- Affichage du message d'erreur -->
+  <div *ngIf="errorMessage" class="alert alert-danger mt-4">
+    <p>{{ errorMessage }}</p>
+  </div>
+</div>

@@ -1,0 +1,234 @@
+/* Variables CSS */
+:root {
+  --primary-color: #8B0000;
+  --primary-hover: #6B0000;
+  --primary-active: #5B0000;
+  --text-dark: #2d3748;
+  --text-light: #f8f9fa;
+  --transition-speed: 0.3s;
+}
+
+/* Reset et styles de base */
+.login-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+}
+
+/* Vidéo de fond améliorée */
+.bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -1;
+  filter: brightness(0.7);
+}
+
+/* Overlay avec dégradé moderne */
+.login-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.4) 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  padding: 2rem;
+}
+
+/* Conteneur principal modernisé */
+.login-container {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 3rem;
+  text-align: center;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 16px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
+  animation: fadeInUp 0.8s ease-out;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Titres */
+.login-container h2 {
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+}
+
+.welcome-message p {
+  color: #555;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+/* Formulaire de connexion */
+form {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.8rem;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #555;
+}
+
+.form-control {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  transition: border-color 0.3s;
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.1);
+}
+
+/* Conteneur mot de passe avec icône */
+.password-input-container {
+  position: relative;
+}
+
+.password-input-container .form-control {
+  padding-right: 40px;
+}
+
+/* Icône "show password" */
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #666;
+  transition: color 0.2s;
+  background: none;
+  border: none;
+  padding: 0 8px;
+}
+
+.toggle-password:hover {
+  color: var(--primary-color);
+}
+
+.toggle-password i {
+  font-size: 1.2rem;
+  transition: transform 0.2s;
+}
+
+.toggle-password.active i {
+  transform: scale(1.1);
+}
+
+/* Bouton de connexion */
+.btn-signin {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 1rem 2.5rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-speed) ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  margin-top: 1rem;
+}
+
+.btn-signin:hover:not(:disabled) {
+  background-color: var(--primary-hover);
+  border-color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-signin:active:not(:disabled) {
+  transform: translateY(0);
+  background-color: var(--primary-active);
+}
+
+.btn-signin:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.btn-signin::after {
+  content: '→';
+  margin-left: 10px;
+  transition: transform var(--transition-speed) ease;
+  display: inline-block;
+}
+
+.btn-signin:hover:not(:disabled)::after {
+  transform: translateX(4px);
+}
+
+/* Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .login-container {
+    padding: 2rem;
+    max-width: 90%;
+  }
+
+  .login-container h2 {
+    font-size: 2rem;
+  }
+
+  form {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-overlay {
+    padding: 1rem;
+  }
+
+  .login-container h2 {
+    font-size: 1.8rem;
+  }
+}

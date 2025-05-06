@@ -1,0 +1,134 @@
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Formulaire de Clustering Fournisseur</h2>
+
+  <!-- Formulaire de clustering -->
+  <form (ngSubmit)="onSubmit()" #clusteringForm="ngForm" class="mb-4">
+    <div class="mb-3">
+      <label for="Capital_Social" class="form-label">Capital Social</label>
+      <input
+        type="number"
+        name="Capital_Social"
+        [(ngModel)]="clusteringFormModel.Capital_Social"
+        required
+        placeholder="Capital Social"
+        class="form-control"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="Rentabilite_Financiere" class="form-label">Rentabilité Financière</label>
+      <input
+        type="number"
+        name="Rentabilite_Financiere"
+        [(ngModel)]="clusteringFormModel.Rentabilite_Financiere"
+        required
+        placeholder="Rentabilité Financière"
+        class="form-control"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="Resultat_Net" class="form-label">Résultat Net</label>
+      <input
+        type="number"
+        name="Resultat_Net"
+        [(ngModel)]="clusteringFormModel.Resultat_Net"
+        required
+        placeholder="Résultat Net"
+        class="form-control"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="Evolution_Chiffre_Affaires" class="form-label">Évolution du Chiffre d'Affaires</label>
+      <input
+        type="number"
+        name="Evolution_Chiffre_Affaires"
+        [(ngModel)]="clusteringFormModel.Evolution_Chiffre_Affaires"
+        required
+        placeholder="Évolution Chiffre d’affaires"
+        class="form-control"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="Chiffre_Affaires" class="form-label">Chiffre d'Affaires</label>
+      <input
+        type="number"
+        name="Chiffre_Affaires"
+        [(ngModel)]="clusteringFormModel.Chiffre_Affaires"
+        required
+        placeholder="Chiffre d’affaires"
+        class="form-control"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="Fond_Roulement" class="form-label">Fonds de Roulement</label>
+      <input
+        type="number"
+        name="Fond_Roulement"
+        [(ngModel)]="clusteringFormModel.Fond_Roulement"
+        required
+        placeholder="Fonds de Roulement"
+        class="form-control"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="Total_Dettes" class="form-label">Total Dettes</label>
+      <input
+        type="number"
+        name="Total_Dettes"
+        [(ngModel)]="clusteringFormModel.Total_Dettes"
+        required
+        placeholder="Total Dettes"
+        class="form-control"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="Type" class="form-label">Type</label>
+      <select
+        name="Type"
+        [(ngModel)]="clusteringFormModel.Type"
+        required
+        class="form-select"
+      >
+        <option value="">-- Type --</option>
+        <option>Partenariat</option>
+        <option>Coopérative / Mutuelle</option>
+        <option>Non disponible</option>
+        <option>Société commerciale</option>
+        <option>Divers / non répertoriés ailleurs</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="Size" class="form-label">Taille de l'entreprise</label>
+      <select
+        name="Size"
+        [(ngModel)]="clusteringFormModel.Size"
+        required
+        class="form-select"
+      >
+        <option value="">-- Taille --</option>
+        <option>Micro entreprise</option>
+        <option>Entreprise de taille moyenne</option>
+        <option>Non disponible</option>
+        <option>Petite entreprise</option>
+        <option>Grande entreprise</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">Prédire Cluster</button>
+  </form>
+
+  <!-- Affichage du résultat du clustering -->
+  <div *ngIf="clusterResult !== null" class="alert alert-success mt-4">
+    <h5 class="alert-heading">Résultat du Clustering :</h5>
+  
+    <p><strong>Description :</strong> {{ description }}</p>
+    <p><strong>Recommandation :</strong> {{ recommandation }}</p>
+  </div>
+</div>

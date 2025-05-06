@@ -1,0 +1,195 @@
+<div class="container mt-4">
+  <!-- En-tête amélioré -->
+  <div class="d-flex align-items-center mb-4">
+    <div class="me-3">
+      <i class="fas fa-calculator fa-2x text-primary"></i>
+    </div>
+    <div>
+      <h2 class="mb-1">Simulation de Trésorerie</h2>
+      <p class="text-muted mb-0">Analyse prévisionnelle des flux financiers</p>
+    </div>
+  </div>
+
+  <!-- Formulaire dans une carte -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <form (ngSubmit)="onSubmit()">
+        <!-- Sélection du magasin -->
+        <div class="row mb-4 g-3 align-items-end">
+          <div class="col-md-6">
+            <label for="store" class="form-label fw-bold">Magasin</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light"><i class="fas fa-store text-primary"></i></span>
+              <select class="form-select" [(ngModel)]="formData.store" name="store" required>
+                <option value="">-- Sélectionnez un magasin --</option>
+                <option *ngFor="let store of stores" [value]="store">{{ store }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <button type="submit" class="btn btn-primary w-100 py-2">
+              <i class="fas fa-chart-line me-2"></i>Générer la prévision
+            </button>
+          </div>
+        </div>
+
+        <!-- Section simulation -->
+        <div class="bg-light p-3 rounded">
+          <h5 class="mb-3"><i class="fas fa-flask text-warning me-2"></i>Scénario "Et si"</h5>
+
+          <div class="row g-3">
+            <div class="col-md-3">
+              <label class="form-label small fw-bold">Changement ventes (%)</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light"><i class="fas fa-percentage text-primary"></i></span>
+                <input type="number" step="1" class="form-control" [(ngModel)]="formData.sales_change"
+                       name="sales_change" placeholder="ex: +10">
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <label class="form-label small fw-bold">Changement stock (%)</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light"><i class="fas fa-boxes text-primary"></i></span>
+                <input type="number" step="1" class="form-control" [(ngModel)]="formData.inventory_change"
+                       name="inventory_change" placeholder="ex: -10">
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <label class="form-label small fw-bold">Délai fournisseur (jours)</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light"><i class="far fa-clock text-primary"></i></span>
+                <input type="number" class="form-control" [(ngModel)]="formData.supplier_delay"
+                       name="supplier_delay" placeholder="ex: 3">
+              </div>
+            </div>
+
+            <div class="col-md-3 d-flex align-items-end">
+              <button type="submit" class="btn btn-primary w-100 py-2">
+                <i class="fas fa-play me-2"></i>Lancer la simulation
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Résultats -->
+  <div *ngIf="cashData.length > 0">
+    <!-- En-tête des résultats -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h4><i class="fas fa-chart-pie text-primary me-2"></i>Résultats pour: <span class="text-primary">{{ formData.store }}</span></h4>
+        <p class="text-muted mb-0">Période du {{ cashData[0].date | date:'dd/MM/yyyy' }} au {{ cashData[cashData.length-1].date | date:'dd/MM/yyyy' }}</p>
+      </div>
+      <button class="btn btn-success" (click)="downloadPdf()">
+        <i class="fas fa-file-pdf me-1"></i>Export PDF
+      </button>
+    </div>
+
+    <!-- Graphique -->
+    <div class="card shadow-sm mb-4">
+      <div class="card-body">
+        <div class="chart-container" style="position: relative; height:350px;">
+          <canvas #cashChart></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sélecteur de date -->
+    <div class="card shadow-sm mb-4">
+      <div class="card-body">
+        <h5 class="mb-3"><i class="far fa-calendar-alt text-primary me-2"></i>Détail par jour</h5>
+        <div class="row align-items-center">
+          <div class="col-md-4">
+            <label class="form-label">Sélectionnez une date:</label>
+            <select class="form-select" [(ngModel)]="selectedDate" (change)="updateSelectedRow()">
+              <option *ngFor="let day of cashData" [value]="day.date">{{ day.date | date:'dd/MM/yyyy' }}</option>
+            </select>
+          </div>
+          <div class="col-md-8">
+            <div class="d-flex overflow-auto py-2">
+              <div *ngFor="let day of cashData"
+                   class="day-picker me-2 text-center cursor-pointer"
+                   [class.bg-primary]="day.date === selectedDate"
+                   [class.bg-danger]="day.cash_shortage && day.date !== selectedDate"
+                   [class.bg-success]="!day.cash_shortage && day.date !== selectedDate"
+                   (click)="selectedDate = day.date; updateSelectedRow()">
+                <div class="small">{{ day.date | date:'EEE' }}</div>
+                <div class="fw-bold">{{ day.date | date:'d' }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tableau de détail -->
+    <div class="card shadow-sm mb-4">
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Date</th>
+                <th class="text-end">Ventes</th>
+                <th class="text-end">Paiements</th>
+                <th class="text-end">Achats</th>
+                <th class="text-end">Salaires</th>
+                <th class="text-end">Loyer</th>
+                <th class="text-end">Dépenses</th>
+                <th class="text-end">Flux net</th>
+                <th class="text-end">Trésorerie</th>
+                <th>Statut</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="selectedRow" [class.table-warning]="selectedRow.cash_shortage">
+                <td><strong>{{ selectedRow.date | date:'EEE d MMM' }}</strong></td>
+                <td class="text-end">{{ selectedRow.expected_sales | number:'1.0-0' }} €</td>
+                <td class="text-end">{{ selectedRow.supplier_payment | number:'1.0-0' }} €</td>
+                <td class="text-end">{{ selectedRow.inventory_purchase | number:'1.0-0' }} €</td>
+                <td class="text-end">{{ selectedRow.salaries | number:'1.0-0' }} €</td>
+                <td class="text-end">{{ selectedRow.rent | number:'1.0-0' }} €</td>
+                <td class="text-end">{{ selectedRow.total_expenses | number:'1.0-0' }} €</td>
+                <td class="text-end fw-bold" [ngClass]="{'text-danger': selectedRow.net_cash_flow < 0, 'text-success': selectedRow.net_cash_flow >= 0}">
+                  {{ selectedRow.net_cash_flow | number:'1.0-0' }} €
+                </td>
+                <td class="text-end fw-bold" [ngClass]="{'text-danger': selectedRow.cumulative_cash < 0, 'text-success': selectedRow.cumulative_cash >= 0}">
+                  {{ selectedRow.cumulative_cash | number:'1.0-0' }} €
+                </td>
+                <td>
+                  <span *ngIf="selectedRow.cash_shortage" class="badge bg-danger">
+                    <i class="fas fa-exclamation-triangle me-1"></i>Déficit
+                  </span>
+                  <span *ngIf="!selectedRow.cash_shortage" class="badge bg-success">
+                    <i class="fas fa-check-circle me-1"></i>OK
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recommandations -->
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5 class="mb-3"><i class="fas fa-lightbulb text-warning me-2"></i>Recommandation</h5>
+        <div class="alert" [ngClass]="{'alert-danger': hasDeficit, 'alert-info': !hasDeficit}">
+          <div [innerHTML]="recommendation"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- État vide -->
+  <div *ngIf="cashData.length === 0" class="text-center py-5 bg-light rounded">
+    <i class="fas fa-calculator fa-3x text-muted mb-3"></i>
+    <h4 class="text-muted">Aucune donnée à afficher</h4>
+    <p class="text-muted">Configurez une simulation pour voir les résultats</p>
+  </div>
+</div>
