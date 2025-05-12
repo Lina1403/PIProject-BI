@@ -51,8 +51,8 @@
 @import "./assets/scss/components/bootstrap-progress";
 @import "./assets/scss/components/bootstrap-alerts";
 @import "./assets/scss/components/tabs";
-@import "./assets/scss/components/dropdowns"; 
-@import "./assets/scss/components/date-picker"; 
+@import "./assets/scss/components/dropdowns";
+@import "./assets/scss/components/date-picker";
 @import "./assets/scss/components/pagination";
 @import "./assets/scss/components/portfolio";
 @import "./assets/scss/components/todo-list";
@@ -61,3 +61,28 @@
 
 /* === Layout === */
 @import "./assets/scss/layout";
+
+
+/* Variables Monoprix */
+:root {
+  --monoprix-red: #E2001A;
+  --monoprix-dark-red: #B80015;
+  --monoprix-black: #000000;
+  --monoprix-anthracite: #333333;
+  --monoprix-light-grey: #F5F5F5;
+  --monoprix-white: #FFFFFF;
+  --font-main: 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Styles de base */
+body {
+  font-family: var(--font-main);
+  color: var(--monoprix-black);
+  background-color: var(--monoprix-light-grey);
+}
+
+/* Override Material Icons */
+.mdi {
+  font-size: 1.2rem;
+  vertical-align: middle;
+}

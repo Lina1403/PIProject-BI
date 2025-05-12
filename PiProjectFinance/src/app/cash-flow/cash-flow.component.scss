@@ -1,52 +1,55 @@
-body {
-  background-color: #f9f9f9;
-  padding: 30px;
-}
+.monoprix-cashflow {
+  .btn-monoprix-red {
+    background-color: var(--monoprix-red);
+    color: white;
+    border: none;
+    transition: all 0.3s;
 
-.table th, .table td {
-  font-size: 14px;
-}
+    &:hover {
+      background-color: var(--monoprix-dark-red);
+      transform: translateY(-1px);
+    }
+  }
 
-.alert-shortage {
-  background-color: #ffe5e5;
-}
+  .btn-outline-monoprix-red {
+    color: var(--monoprix-red);
+    border-color: var(--monoprix-red);
 
-.btn-primary {
-  background-color: #e60012;
-  border-color: #e60012;
-}
+    &:hover {
+      background-color: var(--monoprix-red);
+      color: white;
+    }
+  }
 
-.btn-primary:hover {
-  background-color: #cc0010;
-  border-color: #cc0010;
-}
+  .alert-monoprix-red {
+    background-color: rgba(226, 0, 26, 0.1);
+    border-left: 4px solid var(--monoprix-red);
+    color: var(--monoprix-anthracite);
+  }
 
-.table-dark {
-  background-color: #e60012;
-  color: white;
-}
+  .table-monoprix-light-grey {
+    background-color: var(--monoprix-light-grey);
+  }
 
-.table-dark th {
-  background-color: #e60012;
-}
+  .day-picker {
+    min-width: 45px;
+    padding: 8px 5px;
+    border-radius: 6px;
+    transition: all 0.2s;
 
-.badge-danger {
-  background-color: #e60012;
-}
+    &:hover {
+      transform: translateY(-2px);
+    }
 
-.badge-success {
-  background-color: #28a745;
-}
+    &.bg-monoprix-red {
+      color: white;
+    }
+  }
 
-.alert-info {
-  background-color: #f2dede;
-  color: #e60012;
-}
-
-h2, h4, h5 {
-  color: #e60012;
-}
-
-.text-danger {
-  color: #e60012 !important;
+  .form-control, .form-select {
+    &:focus {
+      border-color: var(--monoprix-red);
+      box-shadow: 0 0 0 0.25rem rgba(226, 0, 26, 0.15);
+    }
+  }
 }

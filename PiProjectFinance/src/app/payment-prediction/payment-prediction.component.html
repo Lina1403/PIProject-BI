@@ -1,10 +1,10 @@
 <div class="container mt-5">
-  <h2 class="text-center mb-4">Prédiction de Paiement</h2>
+  <h2 class="text-center mb-4">Payment Prediction</h2>
 
-  <!-- Formulaire de soumission de date -->
+  <!-- Date submission form -->
   <form (ngSubmit)="onSubmit()" #paymentForm="ngForm" class="mb-4">
     <div class="mb-3">
-      <label for="date" class="form-label">Date de prédiction</label>
+      <label for="date" class="form-label">Prediction Date</label>
       <input
         type="date"
         id="date"
@@ -18,17 +18,17 @@
     <button
       type="submit"
       class="btn btn-primary w-100">
-      Calculer la prédiction
+      Calculate Prediction
     </button>
   </form>
 
-  <!-- Affichage du montant prédit -->
+  <!-- Display predicted amount -->
   <div *ngIf="predictedAmount !== null" class="alert alert-success mt-4">
-    <h5 class="alert-heading">Résultat de la Prédiction</h5>
-    <p>Le montant prédit pour le {{ selectedDate }} est : <strong>{{ predictedAmount }} €    </strong></p>
+    <h5 class="alert-heading">Prediction Result</h5>
+    <p>The predicted amount for {{ selectedDate }} is: <strong>{{ predictedAmount }} €</strong></p>
   </div>
 
-  <!-- Affichage du message d'erreur -->
+  <!-- Display error message -->
   <div *ngIf="errorMessage" class="alert alert-danger mt-4">
     <p>{{ errorMessage }}</p>
   </div>

@@ -1,31 +1,18 @@
-<nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-  <!-- Section Logo -->
-  <div class="navbar-brand-wrapper d-flex align-items-center justify-content-center" style="min-width: 220px; background: #fff; padding-left: 30px;">
-    <a class="navbar-brand brand-logo" routerLink="/">
-      <img src="assets/images/LOGO.png" alt="DashMarket Logo" class="logo-img" style="height: 50px; max-width: 200px;"/>
+<nav class="navbar navbar-expand navbar-light bg-white fixed-top monoprix-navbar">
+  <div class="container-fluid">
+    <button class="navbar-toggler monoprix-toggle" type="button" (click)="toggleSidebar()">
+      <span class="mdi mdi-menu"></span>
+    </button>
+
+    <a class="navbar-brand d-none d-md-block" routerLink="/dashboard">
+      <span class="app-name">Dashmarket</span>
     </a>
-  </div>
 
-  <div class="navbar-menu-wrapper d-flex align-items-stretch bg-white">
-    <!-- Bouton menu -->
-    <button class="navbar-toggler navbar-toggler align-self-center px-3 border-0" type="button" (click)="toggleSidebar()">
-      <span class="mdi mdi-menu"></span>
-    </button>
-
-    <!-- Section droite -->
-    <ul class="navbar-nav navbar-nav-right ms-auto">
-      <!-- Bouton Signout avec redirection directe -->
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/login" style="cursor: pointer; display: flex; align-items: center;">
-          <i class="mdi mdi-logout me-2 text-primary"></i>
-          <span class="d-none d-md-inline">Signout</span>
-        </a>
-      </li>
-    </ul>
-
-    <!-- Bouton menu mobile -->
-    <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center px-3 border-0" type="button" (click)="toggleOffcanvas()">
-      <span class="mdi mdi-menu"></span>
-    </button>
+    <div class="navbar-nav ms-auto">
+      <a class="nav-link logout-btn" routerLink="/login">
+        <i class="mdi mdi-logout me-1"></i>
+        <span class="d-none d-md-inline">Sign out </span>
+      </a>
+    </div>
   </div>
 </nav>

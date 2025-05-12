@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,98 +8,49 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-  powerBiUrl: SafeResourceUrl;
+  dashboardUrl: SafeResourceUrl;
   loading = true;
-  error: string = null;
-  userRole: string;
-  userName: string;
-
-  private readonly powerBiConfig = {
-    embedUrls: {
-      '1': `https://app.powerbi.com/reportEmbed?reportId=de9745aa-ee3c-48b1-a96c-adb5d6051d73&groupId=104b6b09-ffed-4f4c-b80b-c8f4c51fe0a6&autoAuth=true&ctid=604f1a96-cbe8-43f8-abbf-f8eaf5d85730&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly9XQUJJLVVTLU5PUlRILUNFTlRSQUwtQS1QUklNQVJZLXJlZGlyZWN0LmFuYWx5c2lzLndpbmRvd3MubmV0IiwiZW1iZWRGZWF0dXJlcyI6eyJtb2Rlcm5FbWJlZCI6dHJ1ZX19`,
-      '2': `https://app.powerbi.com/reportEmbed?reportId=de9745aa-ee3c-48b1-a96c-adb5d6051d73&groupId=104b6b09-ffed-4f4c-b80b-c8f4c51fe0a6&autoAuth=true&ctid=604f1a96-cbe8-43f8-abbf-f8eaf5d85730&pageName=ReportSection2`,
-      '3': `https://app.powerbi.com/reportEmbed?reportId=de9745aa-ee3c-48b1-a96c-adb5d6051d73&groupId=104b6b09-ffed-4f4c-b80b-c8f4c51fe0a6&autoAuth=true&ctid=604f1a96-cbe8-43f8-abbf-f8eaf5d85730&pageName=ReportSection3`
-    }
-  };
-
-  private messageHandler = this.handlePowerBiMessages.bind(this);
+  error: string | null = null;
 
   constructor(
-    private router: Router,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.checkAuthAndLoadReport();
-    window.addEventListener('message', this.messageHandler, false);
+    this.loadDashboard();
   }
 
   ngOnDestroy(): void {
-    window.removeEventListener('message', this.messageHandler);
   }
 
-  checkAuthAndLoadReport(): void {
-    this.userRole = localStorage.getItem('role');
-    const userData = localStorage.getItem('user');
-
-    if (!this.userRole || !userData) {
-      this.router.navigate(['/login']);
-      return;
-    }
-
-    try {
-      const user = JSON.parse(userData);
-      this.userName = user.name || user.email;
-      this.loadPowerBiReport();
-    } catch (e) {
-      console.error('Error parsing user data', e);
-      this.error = 'Failed to load user data';
-      this.loading = false;
-    }
-  }
-
-  getRoleName(role: string): string {
-    const roles = {
-      '1': 'CEO',
-      '2': 'Accounting Manager',
-      '3': 'Supply Chain Manager'
-    };
-    return roles[role] || 'Unknown';
-  }
-
-  loadPowerBiReport(): void {
+  loadDashboard(): void {
     this.loading = true;
     this.error = null;
 
     try {
-      const embedUrl = this.powerBiConfig.embedUrls[this.userRole];
-      if (!embedUrl) throw new Error(`No Power BI configuration found for role ${this.userRole}`);
+      // Désactive la barre d'action et le volet de filtre
+      const baseUrl = 'https://app.powerbi.com/reportEmbed?reportId=de9745aa-ee3c-48b1-a96c-adb5d6051d73';
+      const params = {
+        autoAuth: 'true',
+        ctid: '604f1a96-cbe8-43f8-abbf-f8eaf5d85730',
+              navContentPaneEnabled: 'false',  // Désactive la barre de navigation
 
-      this.powerBiUrl = this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
+        actionBarEnabled: 'false',  // Désactive la barre d'action
+        filterPaneEnabled: 'false'  // Désactive le volet de filtre
+      };
+
+      const queryString = Object.entries(params)
+        .map(([key, value]) => `${key}=${value}`)
+        .join('&');
+
+      const fullUrl = `${baseUrl}&${queryString}`;
+      this.dashboardUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fullUrl);
     } catch (e) {
-      console.error('Error loading Power BI report:', e);
-      this.error = 'Failed to load Power BI report: ' + e.message;
+      console.error('Failed to load dashboard:', e);
+      this.error = 'Failed to load dashboard. Please try again later.';
     } finally {
       this.loading = false;
     }
-  }
-
-  private handlePowerBiMessages(event: MessageEvent): void {
-    if (event.data?.event) {
-      console.log('Power BI Message:', event.data);
-
-      if (event.data.event === 'error') {
-        this.error = 'Power BI loading error: ' + (event.data.detail || 'Unknown error');
-        this.loading = false;
-      } else if (event.data.event === 'loaded') {
-        this.error = null;
-        this.loading = false;
-      }
-    }
-  }
-
-  logout(): void {
-    localStorage.clear();
-    this.router.navigate(['/login']);
   }
 }

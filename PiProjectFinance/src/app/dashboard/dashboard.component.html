@@ -1,40 +1,34 @@
 <div class="page-header">
-  <h3 class="page-title">
-    Dashboard
-
-  </h3>
-  
+  <h3 class="page-title">Dashboard</h3>
 </div>
 
 <div class="row">
   <div class="col-12">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">Power BI Report</h4>
+        <h4 class="card-title">Power BI Dashboard</h4>
 
         <div *ngIf="loading" class="text-center py-5">
           <div class="spinner-border text-primary" role="status">
             <span class="sr-only">Loading...</span>
           </div>
-          <p class="mt-2">Loading Power BI report...</p>
+          <p class="mt-2">Loading dashboard...</p>
         </div>
 
         <div *ngIf="error" class="alert alert-danger">
           <i class="mdi mdi-alert-circle-outline"></i> {{error}}
-          <button class="btn btn-link" (click)="loadPowerBiReport()">Retry</button>
+          <button class="btn btn-link" (click)="loadDashboard()">Retry</button>
         </div>
 
         <div *ngIf="!loading && !error" class="report-container">
-          <div *ngIf="!loading && !error" class="report-container">
-            <iframe
-              [src]="powerBiUrl"
-              width="100%"
-              height="600px"
-              frameborder="0"
-              allowfullscreen>
-            </iframe>
-          </div>
-
+          <iframe
+            [src]="dashboardUrl"
+            width="1140"
+            height="541.25"
+            style="border: none;"
+            frameborder="0"
+            allowfullscreen>
+          </iframe>
         </div>
       </div>
     </div>
