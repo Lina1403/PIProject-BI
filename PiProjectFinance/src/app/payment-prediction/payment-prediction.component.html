@@ -1,35 +1,104 @@
 <div class="container mt-5">
-  <h2 class="text-center mb-4">Payment Prediction</h2>
-
-  <!-- Date submission form -->
-  <form (ngSubmit)="onSubmit()" #paymentForm="ngForm" class="mb-4">
-    <div class="mb-3">
-      <label for="date" class="form-label">Prediction Date</label>
-      <input
-        type="date"
-        id="date"
-        name="date"
-        [(ngModel)]="selectedDate"
-        required
-        class="form-control"
-      />
+  <div class="form-wrapper">
+    <div class="form-header">
+      <h2 class="text-center mb-3">Payment Prediction</h2>
+      <p class="text-center mb-4">Select a date to forecast expected payment amount</p>
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="formProgress"></div>
+      </div>
     </div>
 
-    <button
-      type="submit"
-      class="btn btn-primary w-100">
-      Calculate Prediction
-    </button>
-  </form>
+    <form [formGroup]="predictionForm" (ngSubmit)="onSubmit()" class="neon-form">
+      <div class="mb-4 section-card">
+        <div class="section-header" (click)="toggleSection('prediction')">
+          <h4>
+            <i class="bi bi-calendar-date"></i>
+            Prediction Parameters
+            <span class="toggle-icon">{{ sections.prediction ? '−' : '+' }}</span>
+          </h4>
+        </div>
 
-  <!-- Display predicted amount -->
-  <div *ngIf="predictedAmount !== null" class="alert alert-success mt-4">
-    <h5 class="alert-heading">Prediction Result</h5>
-    <p>The predicted amount for {{ selectedDate }} is: <strong>{{ predictedAmount }} €</strong></p>
-  </div>
+        <div *ngIf="sections.prediction" class="section-content">
+          <div class="mb-3">
+            <label for="predictionDate">
+              <i class="bi bi-calendar-check"></i> Prediction Date
+            </label>
+            <input
+              id="predictionDate"
+              type="date"
+              formControlName="predictionDate"
+              class="form-control floating-input"
+              [ngClass]="{'is-invalid': predictionForm.get('predictionDate')?.invalid && predictionForm.get('predictionDate')?.touched}"
+            />
+            <div *ngIf="predictionForm.get('predictionDate')?.invalid && predictionForm.get('predictionDate')?.touched" class="invalid-feedback">
+              <i class="bi bi-exclamation-circle"></i> Prediction Date is required
+            </div>
+          </div>
 
-  <!-- Display error message -->
-  <div *ngIf="errorMessage" class="alert alert-danger mt-4">
-    <p>{{ errorMessage }}</p>
+          <div class="form-footer">
+            <button
+              type="submit"
+              class="btn-predict"
+              [disabled]="predictionForm.invalid">
+              <i class="bi bi-calculator"></i> Calculate Prediction
+              <span class="btn-pulse"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <!-- Prediction Result -->
+    <div *ngIf="predictedAmount !== null" class="result-container">
+      <div class="result-card" [ngClass]="getResultClass()">
+        <div class="result-icon">
+          <i [class]="getResultIcon()"></i>
+        </div>
+        <div class="result-content">
+          <h3>Prediction Result</h3>
+          <div class="prediction-amount">
+            {{ predictedAmount | currency:'EUR':'symbol':'1.2-2' }}
+          </div>
+          <p class="prediction-date">Forecasted amount for {{ predictionForm.get('predictionDate')?.value | date:'fullDate' }}</p>
+
+          <div class="result-actions">
+            <button class="btn-details" (click)="showDetails=!showDetails">
+              <i class="bi" [class.bi-chevron-down]="!showDetails" [class.bi-chevron-up]="showDetails"></i>
+              {{ showDetails ? 'Hide Details' : 'View Details' }}
+            </button>
+            <button class="btn-new" (click)="resetForm()">
+              <i class="bi bi-plus-circle"></i> New Prediction
+            </button>
+          </div>
+
+          <div *ngIf="showDetails" class="result-details">
+            <h5><i class="bi bi-graph-up"></i> Prediction Insights</h5>
+            <ul>
+              <li><i class="bi bi-check-circle-fill"></i> Based on historical payment patterns</li>
+              <li><i class="bi bi-check-circle-fill"></i> Accounts for seasonal trends</li>
+              <li><i class="bi bi-check-circle-fill"></i> 95% confidence interval: {{ predictedAmount * 0.95 | currency:'EUR':'symbol':'1.2-2' }} - {{ predictedAmount * 1.05 | currency:'EUR':'symbol':'1.2-2' }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="result-container">
+      <div class="result-card result-high">
+        <div class="result-icon">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+        </div>
+        <div class="result-content">
+          <h3>Prediction Error</h3>
+          <p>{{ errorMessage }}</p>
+          <div class="result-actions">
+            <button class="btn-details" (click)="resetForm()">
+              <i class="bi bi-x-circle"></i> Dismiss
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

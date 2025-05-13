@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-sidebar',
@@ -7,33 +7,62 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SidebarComponent implements OnInit {
   isCollapsed = false;
-
-  constructor() { }
+  isMobileView = false;
+  userInfo: { name?: string; email?: string } | null = null;
+  userRole = '';
 
   ngOnInit() {
-    this.initSidebarHover();
+    this.checkViewport();
+    this.initTooltips();
+    this.loadUserInfo();
   }
 
-  private initSidebarHover() {
-    const body = document.querySelector('body');
+  @HostListener('window:resize')
+  onResize() {
+    this.checkViewport();
+  }
 
-    document.querySelectorAll('.sidebar .nav-item').forEach(el => {
-      el.addEventListener('mouseover', () => {
-        if(body.classList.contains('sidebar-icon-only')) {
-          el.classList.add('hover-open');
-        }
-      });
-      el.addEventListener('mouseout', () => {
-        if(body.classList.contains('sidebar-icon-only')) {
-          el.classList.remove('hover-open');
-        }
-      });
-    });
+  private checkViewport() {
+    this.isMobileView = window.innerWidth < 992;
+    if (this.isMobileView) {
+      this.isCollapsed = true;
+    }
   }
 
   toggleCollapse() {
-    this.isCollapsed = !this.isCollapsed;
-    const body = document.querySelector('body');
-    body.classList.toggle('sidebar-icon-only');
+    if (!this.isMobileView) {
+      this.isCollapsed = !this.isCollapsed;
+    }
+  }
+
+  private initTooltips() {
+    setTimeout(() => {
+      document.querySelectorAll('.nav-item').forEach(item => {
+        const text = item.querySelector('.menu-title')?.textContent;
+        if (text) {
+          item.setAttribute('data-tooltip', text);
+        }
+      });
+    }, 0);
+  }
+
+  private loadUserInfo() {
+    const storedUser = localStorage.getItem('user');
+    const storedRole = localStorage.getItem('role');
+    if (storedUser) {
+      this.userInfo = JSON.parse(storedUser);
+    }
+    if (storedRole) {
+      this.userRole = this.formatRole(storedRole);
+    }
+  }
+
+  private formatRole(roleId: string): string {
+    switch (roleId) {
+      case '1': return 'CEO';
+      case '2': return 'Accounting Manager';
+      case '3': return 'Supply Chain Manager';
+      default:  return 'Unknown Role';
+    }
   }
 }

@@ -1,4 +1,48 @@
-.container {
-  max-width: 600px;
-  margin: 0 auto;
+/* Add these styles to your existing SCSS */
+
+/* Cluster Level Display */
+.cluster-level {
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 1.5rem 0;
+  letter-spacing: 0.5px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 2px 4px rgba(67, 97, 238, 0.2);
+}
+
+/* Form Input Groups for Financial Metrics */
+.input-group-financial {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.input-group-financial .input-group-text {
+  min-width: 120px;
+  justify-content: flex-start;
+  font-weight: 500;
+}
+
+/* Select Dropdown Styling */
+.form-control.floating-input[type="select"],
+.form-control.floating-input[type="text"] {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1em;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .input-group-financial .input-group-text {
+    min-width: 100px;
+    font-size: 0.85rem;
+  }
+
+  .cluster-level {
+    font-size: 1.75rem;
+  }
 }

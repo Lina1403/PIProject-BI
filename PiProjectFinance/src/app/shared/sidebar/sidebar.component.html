@@ -1,55 +1,48 @@
-<nav class="sidebar sidebar-offcanvas" id="sidebar">
-  <div class="sidebar-header">
-    <h3 class="brand-logo">
-      <a routerLink="/dashboard">
-        <img src="assets/images/LOGO.png" alt="Monoprix Logo" class="logo-img">
-      </a>
-    </h3>
+<nav class="sidebar sidebar-offcanvas d-flex flex-column" id="sidebar">
+  <div class="sidebar-header text-center py-4">
+    <a routerLink="/dashboard" class="brand-logo">
+      <!-- <img src="assets/logo.png" alt="Logo" class="logo-img" /> -->
+      <span class="h5">Dashmarket</span>
+    </a>
   </div>
 
-  <ul class="nav">
-    <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+  <ul class="nav flex-column flex-grow-1">
+    <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
       <a class="nav-link" routerLink="/dashboard">
         <i class="mdi mdi-home menu-icon"></i>
         <span class="menu-title">Dashboard</span>
       </a>
     </li>
-
     <li class="nav-item" routerLinkActive="active">
       <a class="nav-link" routerLink="/classification-form">
         <i class="mdi mdi-format-list-bulleted menu-icon"></i>
         <span class="menu-title">Suppliers Classification</span>
       </a>
     </li>
-
     <li class="nav-item" routerLinkActive="active">
       <a class="nav-link" routerLink="/human-detection">
         <i class="mdi mdi-account-search menu-icon"></i>
         <span class="menu-title">Human Detection</span>
       </a>
     </li>
-
     <li class="nav-item" routerLinkActive="active">
       <a class="nav-link" routerLink="/payment-prediction">
         <i class="mdi mdi-cash menu-icon"></i>
         <span class="menu-title">Payment Prediction</span>
       </a>
     </li>
-
     <li class="nav-item" routerLinkActive="active">
       <a class="nav-link" routerLink="/clustering">
         <i class="mdi mdi-chart-scatter-plot menu-icon"></i>
         <span class="menu-title">Clustering</span>
       </a>
     </li>
-
     <li class="nav-item" routerLinkActive="active">
       <a class="nav-link" routerLink="/chatbot">
         <i class="mdi mdi-robot menu-icon"></i>
         <span class="menu-title">Chatbot</span>
       </a>
     </li>
-
     <li class="nav-item" routerLinkActive="active">
       <a class="nav-link" routerLink="/cash-flow">
         <i class="mdi mdi-bank menu-icon"></i>
@@ -57,4 +50,24 @@
       </a>
     </li>
   </ul>
+
+  <div class="sidebar-footer p-3 border-top" *ngIf="userInfo">
+    <div class="user-info d-flex align-items-center">
+      <div
+        class="avatar rounded-circle d-flex justify-content-center align-items-center bg-primary text-white"
+        aria-label="User avatar"
+      >
+        {{ (userInfo.name || userInfo.email).charAt(0).toUpperCase() }}
+      </div>
+      <div class="user-details flex-grow-1 ms-2">
+        <div class="user-name fw-bold mb-1">{{ userInfo.name || userInfo.email }}</div>
+        <div
+          class="user-role small d-inline-block role-badge"
+          [attr.title]="userRole"
+        >
+          {{ userRole }}
+        </div>
+      </div>
+    </div>
+  </div>
 </nav>

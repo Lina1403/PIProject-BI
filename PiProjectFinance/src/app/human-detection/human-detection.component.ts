@@ -11,21 +11,22 @@ export class HumanDetectionComponent {
   videoFile: File | null = null;
   errorMessage: string = '';
   successMessage: string = '';
-  selectedFileName: string | null = null;  // Afficher le nom du fichier sélectionné
+  selectedFileName: string | null = null;
   heatmapPath: string = '';
   movementChartPath: string = '';
-  clusterSalesPath: string = ''; // ✅ Nouveau champ
+  clusterSalesPath: string = '';
   recommendations: string = '';
+
+  // Supprimé parsedRecommendations car maintenant nous utilisons directement recommendations
 
   constructor(private humanDetectionService: HumanDetectionService) {}
 
-  // Fonction pour gérer le changement de fichier
   onFileChange(event: any): void {
     const file = event.target.files[0];
     if (file) {
       if (file.type.startsWith('video/')) {
         this.videoFile = file;
-        this.selectedFileName = file.name;  // Afficher le nom du fichier
+        this.selectedFileName = file.name;
       } else {
         this.errorMessage = 'Veuillez sélectionner un fichier vidéo valide.';
         this.videoFile = null;
@@ -34,7 +35,6 @@ export class HumanDetectionComponent {
     }
   }
 
-  // Fonction pour envoyer la vidéo pour analyse
   onSubmit(): void {
     if (!this.videoFile) {
       this.errorMessage = 'Veuillez télécharger une vidéo.';
@@ -47,6 +47,7 @@ export class HumanDetectionComponent {
     this.heatmapPath = '';
     this.movementChartPath = '';
     this.clusterSalesPath = '';
+    this.recommendations = '';
 
     const formData = new FormData();
     formData.append('video', this.videoFile);
@@ -57,8 +58,8 @@ export class HumanDetectionComponent {
         this.successMessage = response.message;
         this.heatmapPath = response.heatmap;
         this.movementChartPath = response.movement_chart;
-        this.clusterSalesPath = response.cluster_sales; // ✅ Nouveau champ affecté
-        this.recommendations = response.recommendations || 'Aucune recommandation disponible.'; // ✅ Nouveau champ
+        this.clusterSalesPath = response.cluster_sales;
+        this.recommendations = response.recommendations || 'Aucune recommandation disponible.';
       },
       (error) => {
         this.isLoading = false;
@@ -66,5 +67,13 @@ export class HumanDetectionComponent {
         console.error(error);
       }
     );
+  }
+  
+
+  // Ajout de la méthode exportRecommendations()
+  exportRecommendations(): void {
+    // Implémentez ici la logique d'export PDF
+    console.log('Export des recommandations:', this.recommendations);
+    // Vous pouvez utiliser une librairie comme jspdf ou html2pdf
   }
 }

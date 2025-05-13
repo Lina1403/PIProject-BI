@@ -1,10 +1,295 @@
-/* src/app/human-detection/human-detection.component.css */
+/* Palette de couleurs moderne */
+:root {
+  --primary: #4361ee;
+  --primary-dark: #3a56d4;
+  --secondary: #3f37c9;
+  --success: #4cc9f0;
+  --danger: #f72585;
+  --warning: #f8961e;
+  --info: #4895ef;
+  --light: #f8f9fa;
+  --dark: #212529;
+  --gray: #6c757d;
+  --white: #ffffff;
+}
+
+/* Styles de base */
+body {
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--dark);
+  min-height: 100vh;
+}
 
 .container {
-  max-width: 600px;
+  max-width: 900px;
+  padding: 2rem;
+}
+
+/* Wrapper du formulaire */
+.form-wrapper {
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.form-header {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  color: var(--white);
+  padding: 2rem;
+  text-align: center;
+}
+
+.form-header h2 {
+  font-weight: 700;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  position: relative;
+  display: inline-block;
+}
+
+.form-header h2:after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 3px;
+}
+
+.form-header p {
+  opacity: 0.9;
+  font-size: 1.1rem;
+}
+
+/* Section de téléchargement */
+.section-card {
+  background: var(--white);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.section-card:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.section-content {
+  padding: 1.5rem;
+}
+
+.file-upload-label {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  color: var(--white);
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+}
+
+.file-upload-label:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4);
+}
+
+.file-upload-label .btn-pulse {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(255, 255, 255, 0.2);
+  opacity: 0;
+  border-radius: 8px;
+}
+
+.file-upload-label:hover .btn-pulse {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.95); opacity: 0; }
+  70% { transform: scale(1.05); opacity: 0.4; }
+  100% { transform: scale(1.1); opacity: 0; }
+}
+
+.selected-file {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: var(--gray);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Bouton d'analyse */
+.btn-analyze {
+  position: relative;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  color: var(--white);
+  border: none;
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+  width: 100%;
+}
+
+.btn-analyze:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4);
+}
+
+.btn-analyze:disabled {
+  background: var(--gray);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-analyze .btn-pulse {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(255, 255, 255, 0.2);
+  opacity: 0;
+  border-radius: 50px;
+}
+
+.btn-analyze:hover .btn-pulse {
+  animation: pulse 1.5s infinite;
+}
+
+/* Spinner de chargement */
+.spinner-container {
+  text-align: center;
+  padding: 2rem;
 }
 
 .spinner-border {
   width: 3rem;
   height: 3rem;
+  color: var(--primary);
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Alertes */
+.alert {
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.alert-danger {
+  background: linear-gradient(135deg, rgba(247, 37, 133, 0.1) 0%, rgba(247, 37, 133, 0.2) 100%);
+  color: var(--danger);
+}
+
+.alert-success {
+  background: linear-gradient(135deg, rgba(76, 201, 240, 0.1) 0%, rgba(76, 201, 240, 0.2) 100%);
+  color: var(--success);
+}
+
+.alert-info {
+  background: linear-gradient(135deg, rgba(72, 149, 239, 0.1) 0%, rgba(72, 149, 239, 0.2) 100%);
+  color: var(--info);
+}
+
+/* Cartes de résultats */
+.result-card {
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  animation: fadeInUp 0.6s both;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.result-card img {
+  max-width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.result-card h5 {
+  font-weight: 600;
+  color: var(--dark);
+  margin-bottom: 1rem;
+}
+
+.result-card pre {
+  white-space: pre-wrap;
+  background: rgba(0, 0, 0, 0.03);
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+.recommendations-content {
+  pre {
+    white-space: pre-wrap;
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 4px;
+    font-family: monospace;
+  }
+
+  ul, ol {
+    padding-left: 1.5rem;
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+  }
+}
+
+.recommendations-footer {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+  text-align: right;
+}
+/* Design responsive */
+@media (max-width: 768px) {
+  .container { padding: 1rem; }
+  .form-header { padding: 1.5rem 1rem; }
+  .section-content { padding: 1rem; }
+  .btn-analyze { padding: 0.75rem 1.5rem; font-size: 1rem; }
+  .result-card { padding: 1rem; }
 }

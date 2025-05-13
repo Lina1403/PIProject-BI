@@ -1,3 +1,447 @@
-button {
-  padding: 10px 20px;
+/* Reuse the modern color palette and base styles from Supplier Risk Assessment */
+:root {
+  --primary: #4361ee;
+  --primary-dark: #3a56d4;
+  --secondary: #3f37c9;
+  --success: #4cc9f0;
+  --danger: #f72585;
+  --warning: #f8961e;
+  --info: #4895ef;
+  --light: #f8f9fa;
+  --dark: #212529;
+  --gray: #6c757d;
+  --white: #ffffff;
+}
+
+/* Base Styles */
+body {
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--dark);
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 900px;
+  padding: 2rem;
+}
+
+/* Form Wrapper */
+.form-wrapper {
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.form-header {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  color: var(--white);
+  padding: 2rem;
+  text-align: center;
+}
+
+.form-header h2 {
+  font-weight: 700;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  position: relative;
+  display: inline-block;
+}
+
+.form-header h2:after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 3px;
+}
+
+.form-header p {
+  opacity: 0.9;
+  font-size: 1.1rem;
+}
+
+/* Progress Bar */
+.progress-bar {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  margin-top: 1.5rem;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--white);
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+/* Form Sections */
+.neon-form {
+  padding: 2rem;
+}
+
+.section-card {
+  background: var(--white);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.section-card:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.section-header {
+  padding: 1.25rem 1.5rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.3s ease;
+}
+
+.section-header:hover {
+  background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+}
+
+.section-header h4 {
+  margin: 0;
+  font-weight: 600;
+  color: var(--dark);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.toggle-icon {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--gray);
+}
+
+.section-content {
+  padding: 1.5rem;
+}
+
+/* Input Styles */
+.floating-input {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: var(--white);
+}
+
+.floating-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+  outline: none;
+}
+
+label {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  display: block;
+  color: var(--dark);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.invalid-feedback {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  color: var(--danger);
+}
+
+.is-invalid {
+  border-color: var(--danger) !important;
+}
+
+.is-invalid:focus {
+  box-shadow: 0 0 0 3px rgba(247, 37, 133, 0.2) !important;
+}
+
+/* Buttons */
+.form-footer {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.btn-predict {
+  position: relative;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  color: var(--white);
+  border: none;
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+}
+
+.btn-predict:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4);
+}
+
+.btn-predict:disabled {
+  background: var(--gray);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-pulse {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(255, 255, 255, 0.2);
+  opacity: 0;
+  border-radius: 50px;
+}
+
+.btn-predict:hover .btn-pulse {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.05);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(1.1);
+    opacity: 0;
+  }
+}
+
+/* Result Card */
+.result-container {
+  perspective: 1000px;
+}
+
+.result-card {
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  transform-style: preserve-3d;
+  animation: fadeInUp 0.6s both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.result-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  flex-shrink: 0;
+}
+
+.result-content {
+  flex: 1;
+}
+
+.result-bitcoin {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 1.5rem 0;
+  color: var(--success);
+  text-shadow: 0 2px 4px rgba(76, 201, 240, 0.2);
+  animation: pulseScale 1.5s ease-in-out infinite alternate;
+}
+
+.prediction-date {
+  color: var(--gray);
+  margin-bottom: 1.5rem;
+}
+
+@keyframes pulseScale {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.05); }
+}
+
+.result-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.btn-details, .btn-new {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-details {
+  background: rgba(0, 0, 0, 0.05);
+  border: none;
+  color: var(--dark);
+}
+
+.btn-details:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.btn-new {
+  background: var(--primary);
+  color: var(--white);
+  border: none;
+}
+
+.btn-new:hover {
+  background: var(--primary-dark);
+}
+
+.result-details {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.result-details h5 {
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.result-details ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.result-details li {
+  padding: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Result States */
+.result-high {
+  border-left: 5px solid var(--danger);
+}
+
+.result-high .result-icon {
+  background: linear-gradient(135deg, rgba(247, 37, 133, 0.1) 0%, rgba(247, 37, 133, 0.2) 100%);
+  color: var(--danger);
+}
+
+.result-low {
+  border-left: 5px solid var(--success);
+}
+
+.result-low .result-icon {
+  background: linear-gradient(135deg, rgba(76, 201, 240, 0.1) 0%, rgba(76, 201, 240, 0.2) 100%);
+  color: var(--success);
+}
+
+/* Date Picker Customization */
+input[type="date"] {
+  position: relative;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background: transparent;
+  bottom: 0;
+  color: transparent;
+  cursor: pointer;
+  height: auto;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: auto;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .form-header {
+    padding: 1.5rem 1rem;
+  }
+
+  .neon-form {
+    padding: 1.5rem 1rem;
+  }
+
+  .result-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem;
+  }
+
+  .result-actions {
+    flex-direction: column;
+  }
+
+  .btn-details, .btn-new {
+    justify-content: center;
+  }
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.result-icon i {
+  animation: float 3s ease-in-out infinite;
 }

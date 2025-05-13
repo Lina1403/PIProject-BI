@@ -1,85 +1,96 @@
 <div class="container mt-5">
-  <h2 class="text-center mb-4">Upload a video for human movement analysis</h2>
-
-  <!-- Video upload form -->
-  <form (ngSubmit)="onSubmit()" class="mb-4">
-    <div class="mb-3">
-      <!-- Custom styled file selection button -->
-      <label for="fileInput" class="btn btn-outline-primary w-100 text-center py-3">
-        <i class="bi bi-upload me-2"></i>
-        Choose a video
-      </label>
-      <input
-        type="file"
-        id="fileInput"
-        class="form-control d-none"
-        (change)="onFileChange($event)"
-        accept="video/*"
-        required
-      />
-      <!-- Display selected file name -->
-      <div *ngIf="selectedFileName" class="mt-2 text-center text-muted">
-        Selected file: {{ selectedFileName }}
-      </div>
+  <div class="form-wrapper">
+    <div class="form-header">
+      <h2>Human Movement Analysis</h2>
+      <p>Upload a video to analyze human movement patterns</p>
     </div>
 
-    <button type="submit" class="btn btn-primary w-100" [disabled]="isLoading">
-      <i *ngIf="isLoading" class="bi bi-arrow-clockwise spinner-border spinner-border-sm me-2"></i>
-      Analyze Video
-    </button>
-  </form>
+    <form (ngSubmit)="onSubmit()" class="section-card">
+      <div class="section-content">
+        <div class="mb-3 text-center">
+          <label for="fileInput" class="file-upload-label">
+            <i class="bi bi-upload me-2"></i> Choose Video File
+            <span class="btn-pulse"></span>
+          </label>
+          <input
+            type="file"
+            id="fileInput"
+            class="d-none"
+            (change)="onFileChange($event)"
+            accept="video/*"
+            required
+          />
+          <div *ngIf="selectedFileName" class="selected-file">
+            <i class="bi bi-file-earmark-play"></i> Selected file: {{ selectedFileName }}
+          </div>
+        </div>
 
-  <!-- Loading spinner during analysis -->
-  <div *ngIf="isLoading" class="text-center mt-4">
-    <div class="spinner-border text-primary" role="status"></div>
-    <p class="mt-2">Analyzing... Please wait.</p>
-  </div>
-
-  <!-- Display error/success messages -->
-  <div *ngIf="errorMessage" class="alert alert-danger mt-4 d-flex align-items-center">
-    <i class="bi bi-x-circle me-2"></i>
-    <span>{{ errorMessage }}</span>
-  </div>
-
-  <div *ngIf="successMessage" class="alert alert-success mt-4 d-flex align-items-center">
-    <i class="bi bi-check-circle me-2"></i>
-    <span>{{ successMessage }}</span>
-  </div>
-
-  <!-- Display analysis results (heatmap and movement chart) -->
-  <div *ngIf="heatmapPath && movementChartPath" class="mt-4">
-    <h4 class="text-center mb-3">Analysis Results:</h4>
-
-    <div class="card mb-3">
-      <div class="card-header">
-        <h5 class="card-title">Heatmap</h5>
+        <button type="submit" class="btn-analyze" [disabled]="isLoading || !videoFile">
+          <i *ngIf="isLoading" class="bi bi-arrow-clockwise spinner-border spinner-border-sm me-2"></i>
+          Analyze Video
+          <span class="btn-pulse"></span>
+        </button>
       </div>
-      <div class="card-body text-center">
-        <img [src]="heatmapPath" alt="Heatmap" class="img-fluid rounded shadow-sm">
-      </div>
+    </form>
+
+    <!-- Loading Spinner -->
+    <div *ngIf="isLoading" class="spinner-container">
+      <div class="spinner-border" role="status"></div>
+      <p class="mt-2">Analysis in progress... Please wait.</p>
     </div>
 
-    <div class="card mb-3">
-      <div class="card-header">
-        <h5 class="card-title">Movement Chart</h5>
-      </div>
-      <div class="card-body text-center">
-        <img [src]="movementChartPath" alt="Movement Chart" class="img-fluid rounded shadow-sm">
-      </div>
+    <!-- Status Messages -->
+    <div *ngIf="errorMessage" class="alert alert-danger mt-4">
+      <i class="bi bi-x-circle me-2"></i>
+      <span>{{ errorMessage }}</span>
     </div>
 
-    <div *ngIf="clusterSalesPath" class="card mb-3">
-      <div class="card-header">
-        <h5 class="card-title">Cluster Sales Map</h5>
-      </div>
-      <div class="card-body text-center">
-        <img [src]="clusterSalesPath" alt="Cluster Sales Map" class="img-fluid rounded shadow-sm">
-      </div>
+    <div *ngIf="successMessage" class="alert alert-success mt-4">
+      <i class="bi bi-check-circle me-2"></i>
+      <span>{{ successMessage }}</span>
     </div>
 
-    <div *ngIf="recommendations" class="alert alert-info mt-4">
-      <h5>🔍 Recommendations based on the analysis:</h5>
-      <pre style="white-space: pre-wrap">{{ recommendations }}</pre>
+    <!-- Analysis Results -->
+    <div *ngIf="heatmapPath || movementChartPath || clusterSalesPath || recommendations" class="mt-4">
+      <h4 class="text-center mb-3">Analysis Results</h4>
+
+      <div *ngIf="heatmapPath" class="result-card">
+        <h5><i class="bi bi-thermometer-sun"></i> Heatmap Visualization</h5>
+        <div class="text-center">
+          <img [src]="heatmapPath" alt="Heatmap visualization" class="img-fluid" />
+        </div>
+        <p class="mt-2 text-muted">This heatmap shows density of human movement in the space.</p>
+      </div>
+
+      <div *ngIf="movementChartPath" class="result-card">
+        <h5><i class="bi bi-graph-up-arrow"></i> Movement Flow Diagram</h5>
+        <div class="text-center">
+          <img [src]="movementChartPath" alt="Movement flow diagram" class="img-fluid" />
+        </div>
+        <p class="mt-2 text-muted">Visualization of common movement paths and directions.</p>
+      </div>
+
+      <div *ngIf="clusterSalesPath" class="result-card">
+        <h5><i class="bi bi-shop"></i> Sales Activity Clusters</h5>
+        <div class="text-center">
+          <img [src]="clusterSalesPath" alt="Sales activity clusters" class="img-fluid" />
+        </div>
+        <p class="mt-2 text-muted">Areas with highest customer engagement and sales potential.</p>
+      </div>
+
+      <!-- Enhanced Recommendations Section -->
+      <div *ngIf="recommendations" class="result-card recommendations-card">
+        <div class="recommendations-header">
+          <i class="bi bi-lightbulb"></i>
+          <h5>Actionable Recommendations</h5>
+        </div>
+
+        <div class="recommendations-content">
+          <div [innerHTML]="recommendations"></div>
+        </div>
+
+       
+      </div>
     </div>
   </div>
 </div>
