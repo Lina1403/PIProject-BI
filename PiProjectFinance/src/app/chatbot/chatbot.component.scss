@@ -1,192 +1,53 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
-
-$primary-color: #e60012; // Rouge Monoprix
-$secondary-color: #f8f8f8;
-$user-color: #e60012;
-$bot-color: #f0f0f0;
-$text-color: #333;
-$online-color: #4caf50;
-$offline-color: #f44336;
-
 .chat-container {
-  font-family: 'Open Sans', sans-serif;
-  max-width: 500px;
-  margin: 0 auto;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  max-width: 900px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
   overflow: hidden;
+  font-family: 'Segoe UI', sans-serif;
   display: flex;
   flex-direction: column;
-  height: 70vh;
-  background: white;
+}
 
-  .chat-header {
-    background: $primary-color;
-    color: white;
-    padding: 15px 20px;
+.chat-header {
+  background-color: #918b8a; // Monoprix rouge
+  color: #ffffff;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h2 {
+    font-size: 20px;
+    margin: 0;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    gap: 10px;
 
-    h2 {
-      margin: 0;
-      font-size: 1.2rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .chat-status {
-      font-size: 0.8rem;
-      padding: 4px 8px;
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.2);
-
-      &.online {
-        background: $online-color;
-      }
-
-      &.offline {
-        background: $offline-color;
-      }
+    i {
+      font-size: 22px;
     }
   }
 
-  #chat-box {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
-    background: $secondary-color;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-
-    .user-message, .bot-message {
-      max-width: 80%;
-      align-self: flex-start;
-
-      .message-content {
-        padding: 12px 16px;
-        border-radius: 18px;
-        position: relative;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-
-        .message-text {
-          word-wrap: break-word;
-        }
-      }
+  .chat-status {
+    font-size: 14px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    &.online {
+      background-color: #27ae60;
+      color: #fff;
     }
-
-    .user-message {
-      align-self: flex-end;
-
-      .message-content {
-        background: $user-color;
-        color: white;
-        border-bottom-right-radius: 4px;
-      }
-    }
-
-    .bot-message {
-      .message-content {
-        background: $bot-color;
-        color: $text-color;
-        border-bottom-left-radius: 4px;
-      }
-
-      .message-meta {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 8px;
-        font-size: 0.75rem;
-        color: #666;
-
-        .confidence {
-          font-weight: 600;
-        }
-      }
-    }
-
-    .typing-indicator {
-      display: flex;
-      gap: 5px;
-      padding: 10px;
-      background: $bot-color;
-      width: fit-content;
-      border-radius: 18px;
-      margin-bottom: 10px;
-
-      span {
-        height: 8px;
-        width: 8px;
-        background: #999;
-        border-radius: 50%;
-        display: inline-block;
-        animation: bounce 1.5s infinite ease-in-out;
-
-        &:nth-child(2) {
-          animation-delay: 0.2s;
-        }
-
-        &:nth-child(3) {
-          animation-delay: 0.4s;
-        }
-      }
-    }
-  }
-
-  .input-container {
-    display: flex;
-    padding: 15px;
-    background: white;
-    border-top: 1px solid #eee;
-
-    input {
-      flex: 1;
-      padding: 12px 15px;
-      border: 1px solid #ddd;
-      border-radius: 24px;
-      font-size: 1rem;
-      outline: none;
-      transition: border 0.3s;
-
-      &:focus {
-        border-color: $primary-color;
-      }
-
-      &:disabled {
-        background: #f5f5f5;
-      }
-    }
-
-    .send-button {
-      margin-left: 10px;
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: $primary-color;
-      color: white;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.3s;
-
-      &:hover:not(:disabled) {
-        background: darken($primary-color, 10%);
-      }
-
-      &:disabled {
-        background: #ccc;
-        cursor: not-allowed;
-      }
+    &.offline {
+      background-color: #bdc3c7;
+      color: #555;
     }
   }
 }
 
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
+.iframe-wrapper {
+  flex: 1;
+  padding: 20px;
+  background-color: #f9f9f9;
 }

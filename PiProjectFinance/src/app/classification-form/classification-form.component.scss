@@ -1,3 +1,4 @@
+
 /* Modern Color Palette */
 :root {
   --primary: #4361ee;
@@ -86,6 +87,18 @@ body {
 /* Form Sections */
 .neon-form {
   padding: 2rem;
+}
+
+/* Change form text color to black */
+.neon-form label,
+.neon-form .floating-input,
+.neon-form select {
+  color: #000000 !important; /* Black text for labels, inputs, and selects */
+}
+
+.neon-form .floating-input::placeholder {
+  color: #000000 !important; /* Black placeholder text */
+  opacity: 1; /* Ensure full opacity */
 }
 
 .section-card {
@@ -210,7 +223,7 @@ label {
   gap: 0.5rem;
   font-size: 0.85rem;
   margin-top: 0.25rem;
-  color: var(--danger);
+  color: var(--danger); /* Keep error messages in danger color */
 }
 
 .is-invalid {
@@ -521,3 +534,4 @@ label {
 .result-icon i {
   animation: float 3s ease-in-out infinite;
 }
+

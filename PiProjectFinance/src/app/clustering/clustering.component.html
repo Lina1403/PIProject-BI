@@ -1,134 +1,222 @@
 <div class="container mt-5">
-  <h2 class="text-center mb-4">Supplier Clustering Form</h2>
-
-  <!-- Clustering form -->
-  <form (ngSubmit)="onSubmit()" #clusteringForm="ngForm" class="mb-4">
-    <div class="mb-3">
-      <label for="Capital_Social" class="form-label">Share Capital</label>
-      <input
-        type="number"
-        name="Capital_Social"
-        [(ngModel)]="clusteringFormModel.Capital_Social"
-        required
-        placeholder="Share Capital"
-        class="form-control"
-      />
+  <div class="form-wrapper">
+    <div class="form-header">
+      <h2 class="text-center mb-3">Supplier Clustering Analysis</h2>
+      <p class="text-center mb-4">Complete supplier financial details to determine cluster</p>
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="calculateProgress()"></div>
+      </div>
     </div>
 
-    <div class="mb-3">
-      <label for="Rentabilite_Financiere" class="form-label">Financial Profitability</label>
-      <input
-        type="number"
-        name="Rentabilite_Financiere"
-        [(ngModel)]="clusteringFormModel.Rentabilite_Financiere"
-        required
-        placeholder="Financial Profitability"
-        class="form-control"
-      />
+    <form #clusteringForm="ngForm" (ngSubmit)="onSubmit(clusteringForm)" class="neon-form">
+      <!-- Financial Metrics Section -->
+      <div class="mb-4 section-card">
+        <div class="section-header" (click)="toggleSection('financial')">
+          <h4>
+            <i class="bi bi-graph-up"></i>
+            Financial Metrics
+            <span class="toggle-icon">{{sections.financial ? '−' : '+'}}</span>
+          </h4>
+        </div>
+
+        <div *ngIf="sections.financial" class="section-content">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="Capital_Social">
+                <i class="bi bi-cash-stack"></i> Share Capital
+              </label>
+              <input id="Capital_Social" type="number" name="Capital_Social"
+                [(ngModel)]="clusteringFormModel.Capital_Social" required
+                class="form-control floating-input"
+                [ngClass]="{'is-invalid': (clusteringForm.submitted || clusteringForm.touched) && !clusteringFormModel.Capital_Social}">
+              <div *ngIf="(clusteringForm.submitted || clusteringForm.touched) && !clusteringFormModel.Capital_Social" class="invalid-feedback">
+                <i class="bi bi-exclamation-circle"></i> Share Capital is required
+              </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label for="Rentabilite_Financiere">
+                <i class="bi bi-percent"></i> Financial Profitability (%)
+              </label>
+              <input id="Rentabilite_Financiere" type="number" name="Rentabilite_Financiere"
+                [(ngModel)]="clusteringFormModel.Rentabilite_Financiere" required min="0" max="100"
+                class="form-control floating-input"
+                [ngClass]="{'is-invalid': (clusteringForm.submitted || clusteringForm.touched) && (!clusteringFormModel.Rentabilite_Financiere || clusteringFormModel.Rentabilite_Financiere < 0 || clusteringFormModel.Rentabilite_Financiere > 100)}">
+              <div *ngIf="(clusteringForm.submitted || clusteringForm.touched) && (!clusteringFormModel.Rentabilite_Financiere || clusteringFormModel.Rentabilite_Financiere < 0 || clusteringFormModel.Rentabilite_Financiere > 100)"
+                class="invalid-feedback">
+                <i class="bi bi-exclamation-circle"></i> Must be between 0-100
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="Resultat_Net">
+                <i class="bi bi-calculator"></i> Net Result (€)
+              </label>
+              <input id="Resultat_Net" type="number" name="Resultat_Net"
+                [(ngModel)]="clusteringFormModel.Resultat_Net" required min="0"
+                class="form-control floating-input"
+                [ngClass]="{'is-invalid': (clusteringForm.submitted || clusteringForm.touched) && (!clusteringFormModel.Resultat_Net || clusteringFormModel.Resultat_Net < 0)}">
+              <div *ngIf="(clusteringForm.submitted || clusteringForm.touched) && (!clusteringFormModel.Resultat_Net || clusteringFormModel.Resultat_Net < 0)"
+                class="invalid-feedback">
+                <i class="bi bi-exclamation-circle"></i> Must be positive
+              </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label for="Evolution_Chiffre_Affaires">
+                <i class="bi bi-arrow-up-right"></i> Revenue Growth (%)
+              </label>
+              <input id="Evolution_Chiffre_Affaires" type="number" name="Evolution_Chiffre_Affaires"
+                [(ngModel)]="clusteringFormModel.Evolution_Chiffre_Affaires" required
+                class="form-control floating-input"
+                [ngClass]="{'is-invalid': (clusteringForm.submitted || clusteringForm.touched) && !clusteringFormModel.Evolution_Chiffre_Affaires}">
+              <div *ngIf="(clusteringForm.submitted || clusteringForm.touched) && !clusteringFormModel.Evolution_Chiffre_Affaires"
+                class="invalid-feedback">
+                <i class="bi bi-exclamation-circle"></i> Revenue Growth is required
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="Chiffre_Affaires">
+                <i class="bi bi-receipt"></i> Revenue (€)
+              </label>
+              <input id="Chiffre_Affaires" type="number" name="Chiffre_Affaires"
+                [(ngModel)]="clusteringFormModel.Chiffre_Affaires" required min="0"
+                class="form-control floating-input"
+                [ngClass]="{'is-invalid': (clusteringForm.submitted || clusteringForm.touched) && (!clusteringFormModel.Chiffre_Affaires || clusteringFormModel.Chiffre_Affaires < 0)}">
+              <div *ngIf="(clusteringForm.submitted || clusteringForm.touched) && (!clusteringFormModel.Chiffre_Affaires || clusteringFormModel.Chiffre_Affaires < 0)"
+                class="invalid-feedback">
+                <i class="bi bi-exclamation-circle"></i> Must be positive
+              </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label for="Fond_Roulement">
+                <i class="bi bi-piggy-bank"></i> Working Capital (€)
+              </label>
+              <input id="Fond_Roulement" type="number" name="Fond_Roulement"
+                [(ngModel)]="clusteringFormModel.Fond_Roulement" required
+                class="form-control floating-input"
+                [ngClass]="{'is-invalid': (clusteringForm.submitted || clusteringForm.touched) && !clusteringFormModel.Fond_Roulement}">
+              <div *ngIf="(clusteringForm.submitted || clusteringForm.touched) && !clusteringFormModel.Fond_Roulement"
+                class="invalid-feedback">
+                <i class="bi bi-exclamation-circle"></i> Working Capital is required
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="Total_Dettes">
+                <i class="bi bi-credit-card"></i> Total Debt (€)
+              </label>
+              <input id="Total_Dettes" type="number" name="Total_Dettes"
+                [(ngModel)]="clusteringFormModel.Total_Dettes" required min="0"
+                class="form-control floating-input"
+                [ngClass]="{'is-invalid': (clusteringForm.submitted || clusteringForm.touched) && (!clusteringFormModel.Total_Dettes || clusteringFormModel.Total_Dettes < 0)}">
+              <div *ngIf="(clusteringForm.submitted || clusteringForm.touched) && (!clusteringFormModel.Total_Dettes || clusteringFormModel.Total_Dettes < 0)"
+                class="invalid-feedback">
+                <i class="bi bi-exclamation-circle"></i> Must be positive
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Company Details Section -->
+      <div class="mb-4 section-card">
+        <div class="section-header" (click)="toggleSection('company')">
+          <h4>
+            <i class="bi bi-building"></i>
+            Company Details
+            <span class="toggle-icon">{{sections.company ? '−' : '+'}}</span>
+          </h4>
+        </div>
+
+        <div *ngIf="sections.company" class="section-content">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="Type">
+                <i class="bi bi-diagram-3"></i> Company Type
+              </label>
+              <select id="Type" name="Type" [(ngModel)]="clusteringFormModel.Type" required
+                class="form-control floating-input"
+                [ngClass]="{'is-invalid': (clusteringForm.submitted || clusteringForm.touched) && !clusteringFormModel.Type}">
+                <option value="">-- Select Type --</option>
+                <option>Partnership</option>
+                <option>Cooperative / Mutual</option>
+                <option>Not available</option>
+                <option>Commercial company</option>
+                <option>Other / Not listed</option>
+              </select>
+              <div *ngIf="(clusteringForm.submitted || clusteringForm.touched) && !clusteringFormModel.Type"
+                class="invalid-feedback">
+                <i class="bi bi-exclamation-circle"></i> Company Type is required
+              </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label for="Size">
+                <i class="bi bi-people"></i> Company Size
+              </label>
+              <select id="Size" name="Size" [(ngModel)]="clusteringFormModel.Size" required
+                class="form-control floating-input"
+                [ngClass]="{'is-invalid': (clusteringForm.submitted || clusteringForm.touched) && !clusteringFormModel.Size}">
+                <option value="">-- Select Size --</option>
+                <option>Micro enterprise</option>
+                <option>Small enterprise</option>
+                <option>Medium-sized enterprise</option>
+                <option>Large enterprise</option>
+                <option>Not available</option>
+              </select>
+              <div *ngIf="(clusteringForm.submitted || clusteringForm.touched) && !clusteringFormModel.Size"
+                class="invalid-feedback">
+                <i class="bi bi-exclamation-circle"></i> Company Size is required
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="form-footer">
+        <button type="submit" class="btn-predict" [disabled]="isLoading">
+          <i *ngIf="isLoading" class="bi bi-arrow-clockwise spinner-border spinner-border-sm me-2"></i>
+          <i *ngIf="!isLoading" class="bi bi-diagram-3"></i>
+          {{ isLoading ? 'Analyzing...' : 'Determine Cluster' }}
+          <span class="btn-pulse" *ngIf="!isLoading"></span>
+        </button>
+      </div>
+    </form>
+
+    <!-- Cluster Result -->
+    <div *ngIf="clusterResult !== null" class="result-container">
+      <div class="result-card" [ngClass]="getResultClass()">
+        <div class="result-icon">
+          <i [class]="getResultIcon()"></i>
+        </div>
+        <div class="result-content">
+          <h3>Cluster Analysis Result</h3>
+          <div class="risk-level">
+            Cluster {{ clusterResult }}
+          </div>
+          <div class="recommendation">
+            <i class="bi bi-lightbulb"></i> {{ description }}
+          </div>
+          <div class="recommendation mt-3">
+            <i class="bi bi-card-checklist"></i> {{ recommandation }}
+          </div>
+          <div class="result-actions">
+            <button class="btn-new" (click)="resetForm()">
+              <i class="bi bi-plus-circle"></i> New Analysis
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <div class="mb-3">
-      <label for="Resultat_Net" class="form-label">Net Result</label>
-      <input
-        type="number"
-        name="Resultat_Net"
-        [(ngModel)]="clusteringFormModel.Resultat_Net"
-        required
-        placeholder="Net Result"
-        class="form-control"
-      />
-    </div>
-
-    <div class="mb-3">
-      <label for="Evolution_Chiffre_Affaires" class="form-label">Revenue Growth</label>
-      <input
-        type="number"
-        name="Evolution_Chiffre_Affaires"
-        [(ngModel)]="clusteringFormModel.Evolution_Chiffre_Affaires"
-        required
-        placeholder="Revenue Growth"
-        class="form-control"
-      />
-    </div>
-
-    <div class="mb-3">
-      <label for="Chiffre_Affaires" class="form-label">Revenue</label>
-      <input
-        type="number"
-        name="Chiffre_Affaires"
-        [(ngModel)]="clusteringFormModel.Chiffre_Affaires"
-        required
-        placeholder="Revenue"
-        class="form-control"
-      />
-    </div>
-
-    <div class="mb-3">
-      <label for="Fond_Roulement" class="form-label">Working Capital</label>
-      <input
-        type="number"
-        name="Fond_Roulement"
-        [(ngModel)]="clusteringFormModel.Fond_Roulement"
-        required
-        placeholder="Working Capital"
-        class="form-control"
-      />
-    </div>
-
-    <div class="mb-3">
-      <label for="Total_Dettes" class="form-label">Total Debt</label>
-      <input
-        type="number"
-        name="Total_Dettes"
-        [(ngModel)]="clusteringFormModel.Total_Dettes"
-        required
-        placeholder="Total Debt"
-        class="form-control"
-      />
-    </div>
-
-    <div class="mb-3">
-      <label for="Type" class="form-label">Type</label>
-      <select
-        name="Type"
-        [(ngModel)]="clusteringFormModel.Type"
-        required
-        class="form-select"
-      >
-        <option value="">-- Type --</option>
-        <option>Partnership</option>
-        <option>Cooperative / Mutual</option>
-        <option>Not available</option>
-        <option>Commercial company</option>
-        <option>Other / Not listed</option>
-      </select>
-    </div>
-
-    <div class="mb-3">
-      <label for="Size" class="form-label">Company Size</label>
-      <select
-        name="Size"
-        [(ngModel)]="clusteringFormModel.Size"
-        required
-        class="form-select"
-      >
-        <option value="">-- Size --</option>
-        <option>Micro enterprise</option>
-        <option>Medium-sized enterprise</option>
-        <option>Not available</option>
-        <option>Small enterprise</option>
-        <option>Large enterprise</option>
-      </select>
-    </div>
-
-    <button type="submit" class="btn btn-primary w-100">Predict Cluster</button>
-  </form>
-
-  <!-- Display clustering result -->
-  <div *ngIf="clusterResult !== null" class="alert alert-success mt-4">
-    <h5 class="alert-heading">Clustering Result:</h5>
-
-    <p><strong>Description:</strong> {{ description }}</p>
-    <p><strong>Recommendation:</strong> {{ recommandation }}</p>
   </div>
 </div>

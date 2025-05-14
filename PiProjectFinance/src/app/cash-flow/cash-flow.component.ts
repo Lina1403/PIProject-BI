@@ -29,9 +29,16 @@ export class CashFlowComponent implements OnInit, AfterViewInit {
   cashData: any[] = [];
   recommendation: string = '';
   hasDeficit: boolean = false;
+  isLoading: boolean = false;
+  submitted: boolean = false;
 
   selectedDate: string = '';
   selectedRow: any = null;
+
+  sections = {
+    store: true,
+    parameters: true
+  };
 
   constructor(private cashFlowService: CashFlowService) { }
 
@@ -43,31 +50,46 @@ export class CashFlowComponent implements OnInit, AfterViewInit {
     }
   }
 
+  toggleSection(section: string): void {
+    this.sections[section] = !this.sections[section];
+  }
+
+  calculateProgress(): number {
+    let completed = 0;
+    const totalFields = 1; // Only store is required
+
+    if (this.formData.store) completed++;
+
+    return Math.round((completed / totalFields) * 100);
+  }
+
   onSubmit(): void {
+    this.submitted = true;
+
     if (!this.formData.store) {
-      alert('Veuillez sélectionner un magasin');
       return;
     }
 
+    this.isLoading = true;
+
     this.cashFlowService.getCashFlowData(this.formData).subscribe({
       next: (response: any) => {
+        this.isLoading = false;
         if (response.status === 'success') {
           this.cashData = response.cash_data;
           this.recommendation = response.recommendation;
+          this.hasDeficit = this.cashData.some(day => day.cash_shortage);
 
           if (this.cashData.length > 0) {
             this.selectedDate = this.cashData[0].date;
             this.selectedRow = this.cashData[0];
             setTimeout(() => this.createChart(), 0);
           }
-        } else {
-          console.error('Erreur du serveur:', response.message);
-          alert('Erreur: ' + response.message);
         }
       },
       error: (err) => {
-        console.error('Erreur HTTP:', err);
-        alert('Une erreur est survenue lors de la communication avec le serveur');
+        this.isLoading = false;
+        console.error('Error:', err);
       }
     });
   }
@@ -89,12 +111,13 @@ export class CashFlowComponent implements OnInit, AfterViewInit {
       data: {
         labels: labels,
         datasets: [{
-          label: 'Trésorerie cumulée (€)',
+          label: 'Cumulative Cash (€)',
           data: cashValues,
-          borderColor: '#e60012',
-          backgroundColor: 'rgba(230, 0, 18, 0.1)',
+          borderColor: '#4361ee',
+          backgroundColor: 'rgba(67, 97, 238, 0.1)',
           fill: true,
-          tension: 0.3
+          tension: 0.3,
+          borderWidth: 2
         }]
       },
       options: {
@@ -103,7 +126,15 @@ export class CashFlowComponent implements OnInit, AfterViewInit {
         plugins: {
           title: {
             display: true,
-            text: 'Prévision de trésorerie - 30 prochains jours'
+            text: '30-Day Cash Flow Forecast',
+            font: {
+              size: 16,
+              weight: 'bold'
+            }
+          },
+          tooltip: {
+            mode: 'index',
+            intersect: false
           },
           legend: {
             display: false
@@ -111,19 +142,25 @@ export class CashFlowComponent implements OnInit, AfterViewInit {
         },
         scales: {
           y: {
-            beginAtZero: false
+            beginAtZero: false,
+            title: {
+              display: true,
+              text: 'Amount (€)'
+            }
+          },
+          x: {
+            title: {
+              display: true,
+              text: 'Date'
+            }
           }
         }
       }
     });
   }
 
-
   downloadPdf(): void {
-    if (!this.cashData.length) {
-      alert('Aucune donnée à exporter');
-      return;
-    }
+    if (!this.cashData.length) return;
 
     const body = {
       store: this.formData.store,
@@ -131,44 +168,22 @@ export class CashFlowComponent implements OnInit, AfterViewInit {
       recommendation: this.recommendation
     };
 
-    console.log('Sending PDF request with data:', body); // Debug
-
     this.cashFlowService.downloadPdf(body).subscribe({
       next: (blob: Blob) => {
-        if (blob.size === 0) {
-          throw new Error('Received empty PDF blob');
-        }
-
         const blobUrl = URL.createObjectURL(blob);
-
-        // Testez si le blob est un PDF valide
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const arr = new Uint8Array(e.target?.result as ArrayBuffer);
-          const header = arr.subarray(0, 4).reduce((acc, byte) => acc + byte.toString(16), '');
-          if (header !== '25504446') { // '%PDF' en hex
-            throw new Error('Invalid PDF file received');
-          }
-
-          // Si valide, procédez au téléchargement
-          const a = document.createElement('a');
-          a.href = blobUrl;
-          a.download = `cashflow_${this.formData.store}.pdf`;
-          a.style.display = 'none';
-          document.body.appendChild(a);
-          a.click();
-
-          // Nettoyage
-          setTimeout(() => {
-            document.body.removeChild(a);
-            URL.revokeObjectURL(blobUrl);
-          }, 100);
-        };
-        reader.readAsArrayBuffer(blob);
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        a.download = `cashflow_${this.formData.store}.pdf`;
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+          document.body.removeChild(a);
+          URL.revokeObjectURL(blobUrl);
+        }, 100);
       },
       error: (err) => {
         console.error('PDF Error:', err);
-        alert(`Échec du téléchargement: ${err.message || 'Erreur inconnue'}`);
       }
     });
   }

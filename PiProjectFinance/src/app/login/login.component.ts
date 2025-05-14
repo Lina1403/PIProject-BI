@@ -19,6 +19,7 @@ export class LoginComponent {
   ) {}
 
   login() {
+
     this.isLoading = true;
     this.errorMessage = '';
 
@@ -26,16 +27,13 @@ export class LoginComponent {
 
     this.http.post<any>('http://localhost:5000/api/login', credentials).subscribe({
       next: (res) => {
-        if (res && res.role) {
-          // Save role and user info
-          localStorage.setItem('role', res.role.toString());
-          localStorage.setItem('user', JSON.stringify(res.user || { email: this.email }));
-
-          // Redirect to dashboard
-          this.router.navigate(['/dashboard']);
-        } else {
-          this.errorMessage = 'Invalid server response';
-        }
+       if (res && res.role) {
+  localStorage.setItem('role', res.role.toString());
+  localStorage.setItem('user', JSON.stringify(res.user || { email: this.email }));
+  this.router.navigate(['/dashboard']);
+} else {
+  this.errorMessage = 'Invalid server response';
+}
         this.isLoading = false;
       },
       error: (err) => {
