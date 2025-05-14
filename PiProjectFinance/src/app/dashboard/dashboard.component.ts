@@ -21,23 +21,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.loadDashboard();
   }
 
-  ngOnDestroy(): void {
-  }
+  ngOnDestroy(): void {}
 
   loadDashboard(): void {
     this.loading = true;
     this.error = null;
 
     try {
-      // Désactive la barre d'action et le volet de filtre
-      const baseUrl = 'https://app.powerbi.com/reportEmbed?reportId=de9745aa-ee3c-48b1-a96c-adb5d6051d73';
+      // Nouvelle URL du rapport Power BI avec les bons paramètres
+      const baseUrl = 'https://app.powerbi.com/reportEmbed?reportId=dc602b7a-7376-47ec-acad-46014812732e';
       const params = {
         autoAuth: 'true',
         ctid: '604f1a96-cbe8-43f8-abbf-f8eaf5d85730',
-              navContentPaneEnabled: 'false',  // Désactive la barre de navigation
-
-        actionBarEnabled: 'false',  // Désactive la barre d'action
-        filterPaneEnabled: 'false'  // Désactive le volet de filtre
+        navContentPaneEnabled: 'false',
+        actionBarEnabled: 'false',
+        filterPaneEnabled: 'false'
       };
 
       const queryString = Object.entries(params)
@@ -48,7 +46,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.dashboardUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fullUrl);
     } catch (e) {
       console.error('Failed to load dashboard:', e);
-      this.error = 'Failed to load dashboard. Please try again later.';
+      this.error = 'Échec du chargement du tableau de bord. Veuillez réessayer plus tard.';
     } finally {
       this.loading = false;
     }
